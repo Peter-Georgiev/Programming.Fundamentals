@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A06D55FF-2BF7-435C-A579-319FCD099372}</ProjectGuid>
+    <ProjectGuid>{761BB48F-BEB6-49C6-AC29-91DFC536357F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_05.WordInPlural</RootNamespace>
-    <AssemblyName>05.WordInPlural</AssemblyName>
+    <RootNamespace>_07.CakeIngredients</RootNamespace>
+    <AssemblyName>07.CakeIngredients</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WordInPlural.cs" />
+    <Compile Include="CakeIngredients.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
