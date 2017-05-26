@@ -11,7 +11,6 @@ class ExchangeVariableValues
         a = b;
         b = temp;
 
-        //After
         Console.WriteLine(a);
         Console.WriteLine(b);
     }
