@@ -25,11 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10.TriangleOfNumbers", "10.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11.5DifferentNumbers", "11.5DifferentNumbers\11.5DifferentNumbers.csproj", "{5FA40BE5-07E2-46A6-AA24-B82F4705D632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11.TestNumbers", "11.TestNumbers\11.TestNumbers.csproj", "{68400826-26E1-41BC-A16F-6BEF65518D1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12.TestNumbers", "11.TestNumbers\12.TestNumbers.csproj", "{68400826-26E1-41BC-A16F-6BEF65518D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12.GameOfNumbers", "12.GameOfNumbers\12.GameOfNumbers.csproj", "{6333D783-E52C-462B-8738-F0CA0FFF517E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13.GameOfNumbers", "12.GameOfNumbers\13.GameOfNumbers.csproj", "{6333D783-E52C-462B-8738-F0CA0FFF517E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13.MagicLetter", "13.MagicLetter\13.MagicLetter.csproj", "{1C818C18-FE39-4B05-9015-FC5CEB96DCED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14.MagicLetter", "13.MagicLetter\14.MagicLetter.csproj", "{1C818C18-FE39-4B05-9015-FC5CEB96DCED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14.NeighbourWars", "14.NeighbourWars\14.NeighbourWars.csproj", "{BA055C40-98DD-481F-B858-AB11BF0D097C}"
 EndProject

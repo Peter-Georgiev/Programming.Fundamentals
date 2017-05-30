@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 class BlankReceipt
 {
@@ -22,8 +23,10 @@ class BlankReceipt
     public static void PrintReceiptFooter()
     {
         Console.WriteLine("------------------------------");
-        string symbol = "\u00A9";
-        Console.WriteLine($"{symbol} SoftUni");        
+        //char symbol = '\u00A9';
+        int symbol = 169;
+        Console.OutputEncoding = Encoding.Unicode;
+        Console.WriteLine($"{(char)symbol} SoftUni");        
     }
 
     public static void PrintReceipt()
