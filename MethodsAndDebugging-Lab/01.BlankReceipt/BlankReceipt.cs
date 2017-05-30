@@ -25,7 +25,7 @@ class BlankReceipt
         Console.WriteLine("------------------------------");
         //char symbol = '\u00A9';
         int symbol = 169;
-        Console.OutputEncoding = Encoding.Unicode;
+        //Console.OutputEncoding = Encoding.Unicode;
         Console.WriteLine($"{(char)symbol} SoftUni");        
     }
 
