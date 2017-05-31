@@ -6,29 +6,19 @@ class RoundingNumbers
 {
     static void Main()
     {        
-        string[] nums = Console.ReadLine().Split(',').ToArray();
+        string[] nums = Console.ReadLine().Split(' ').ToArray();
 
-        int[] integersArr = new int[nums.Length];
+        double[] integersArr = new double[nums.Length];
 
         for (int i = 0; i < integersArr.Length; i++)
         {            
-            integersArr[i] = int.Parse(nums[i]);
+            integersArr[i] = double.Parse(nums[i]);
         }
 
         for (int i = 0; i < integersArr.Length; i++)
         {
-            int num = integersArr[i];
-            bool isTrue = Math.Round(num, MidpointRounding.AwayFromZero) != 0;
-            if (Math.Round(num, MidpointRounding.AwayFromZero))
-            {
-
-            }
+            int numRound = (int)Math.Round(integersArr[i], MidpointRounding.AwayFromZero);
+            Console.WriteLine($"{integersArr[i]} => {numRound}");
         }
-
-        if (var round = (int)Math.Round(nums[i], MidpointRounding.AwayFromZero);)
-        {
-
-        }
-        
     }
 }
