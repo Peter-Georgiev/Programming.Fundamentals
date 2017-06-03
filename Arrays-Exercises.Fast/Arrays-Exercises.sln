@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.FoldAndSum", "03.FoldAnd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.SieveOfEratosthens", "04.SieveOfEratosthens\04.SieveOfEratosthens.csproj", "{2ACA7E7D-22FC-45D0-9FE1-5CA13459A0C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.CompareCharArrays", "05.CompareCharArrays\05.CompareCharArrays.csproj", "{C48EF2CB-37DA-4B53-A332-17D35A74729A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2ACA7E7D-22FC-45D0-9FE1-5CA13459A0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ACA7E7D-22FC-45D0-9FE1-5CA13459A0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ACA7E7D-22FC-45D0-9FE1-5CA13459A0C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C48EF2CB-37DA-4B53-A332-17D35A74729A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C48EF2CB-37DA-4B53-A332-17D35A74729A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C48EF2CB-37DA-4B53-A332-17D35A74729A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C48EF2CB-37DA-4B53-A332-17D35A74729A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
