@@ -5,9 +5,8 @@ class Transport
     static void Main()
     {
         int n = int.Parse(Console.ReadLine());
-        int capacity = int.Parse(Console.ReadLine());
 
-        int courses = (int)Math.Ceiling((double)n / capacity);
+        double courses = Math.Ceiling((double)n / (4 + 8 + 12));
         Console.WriteLine(courses);
     }
 }
