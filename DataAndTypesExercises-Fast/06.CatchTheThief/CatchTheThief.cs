@@ -13,36 +13,31 @@ class CatchTheThief
             array[i] = long.Parse(Console.ReadLine());
         }
 
-        long result = 0;
+        long result = 0;        
         for (int i = 0; i < array.Length; i++)
         {
-            if (array[i] >= n)
-            {
-                result = array[i];
-                break;
-            }
-        }
+            bool isLong = int.MaxValue <= array[i] && n <= array[i] &&
+                array[i] <= long.MaxValue && message.Equals("long");
+            bool isInt = sbyte.MaxValue <= array[i] && n <= array[i] &&
+                array[i] <= int.MaxValue && message.Equals("int");
+            bool isSbyte = sbyte.MinValue <= array[i] && n <= array[i] &&
+                array[i] <= sbyte.MaxValue && message.Equals("sbyte");
 
-        
-        for (int i = 0; i < array.Length; i++)
-        {
-
-            if (int.MaxValue <= array[i] && array[i] <= long.MaxValue && message.Equals("long"))
+            if (isLong)
             {
                 result = array[i];
                 break;
             }
-            else if (sbyte.MaxValue <= array[i] && array[i] <= int.MaxValue && message.Equals("int"))
+            else if (isInt)
             {
                 result = array[i];
                 break;
             }
-            else if (sbyte.MinValue <= array[i] && array[i] <= sbyte.MaxValue && message.Equals("sbyte"))
+            else if (isSbyte)
             {
                 result = array[i];
                 break;
             }
-
         }       
 
         Console.WriteLine(result);
