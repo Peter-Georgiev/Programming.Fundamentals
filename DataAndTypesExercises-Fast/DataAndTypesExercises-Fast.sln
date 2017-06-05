@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.Water_Overflow", "03.Wat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.TouristInformation", "04.TouristInformation\04.TouristInformation.csproj", "{51303AE6-6DD4-4659-99E4-865882E9F0AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.WeatherForecast", "05.WeatherForecast\05.WeatherForecast.csproj", "{2F2A6897-B97D-4ABA-A0C5-136328C6241D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.CatchTheThief", "06.CatchTheThief\06.CatchTheThief.csproj", "{617D4A1D-9668-461E-A738-6031D9F579BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{51303AE6-6DD4-4659-99E4-865882E9F0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51303AE6-6DD4-4659-99E4-865882E9F0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51303AE6-6DD4-4659-99E4-865882E9F0AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F2A6897-B97D-4ABA-A0C5-136328C6241D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F2A6897-B97D-4ABA-A0C5-136328C6241D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F2A6897-B97D-4ABA-A0C5-136328C6241D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F2A6897-B97D-4ABA-A0C5-136328C6241D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{617D4A1D-9668-461E-A738-6031D9F579BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{617D4A1D-9668-461E-A738-6031D9F579BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{617D4A1D-9668-461E-A738-6031D9F579BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{617D4A1D-9668-461E-A738-6031D9F579BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
