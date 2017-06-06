@@ -5,43 +5,48 @@ class PowerPlants
 {
     static void Main()
     {
-        //int[] flowers = Console.ReadLine()
-        //        .Split(' ')
-        //        .Select(int.Parse)
-        //        .ToArray();
+        int[] flowers = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
 
-        //int daysCompleted = 0;
-        //int seasons = 0;
+        int daysEnd = 0;
+        int seasons = 0;
 
-        //while (flowers.Max() != 0)
-        //{
-        //    for (int days = 0; days < flowers.Length; days++)
-        //    {
-        //        for (int individual = 0; individual < flowers.Length; individual++)
-        //        {
-        //            if (days != individual && flowers[individual] > 0)
-        //            {
-        //                flowers[individual]--;
-        //            }
-        //        }
+        while (flowers.Max() != 0)
+        {
 
-        //        daysCompleted++;
-        //        if (flowers.Max() == 0) break;
-        //    }
+            for (int i = 0; i < flowers.Length; i++) //days flowers
+            {
+                for (int j = 0; j < flowers.Length; j++) //individual flowers
+                {
+                    if (i != j && flowers[j] > 0)
+                    {
+                        flowers[j]--;
+                    }
+                }
 
-        //    if (flowers.Max() == 0) break;
+                daysEnd++;
+                if (flowers.Max() == 0)
+                {
+                    break;
+                }
+            }
 
-        //    for (int endOfSeason = 0; endOfSeason < flowers.Length; endOfSeason++)
-        //    {
-        //        if (flowers[endOfSeason] > 0)
-        //        {
-        //            flowers[endOfSeason]++;
-        //        }
-        //    }
+            if (flowers.Max() == 0)
+            {
+                break;
+            }
 
-        //    seasons++;
-        //}
+            // End of season
+            for (int i = 0; i < flowers.Length; i++)
+            {
+                if (flowers[i] > 0)
+                {
+                    flowers[i]++;
+                }
+            }
 
-        //Console.WriteLine($"survived {daysCompleted} days ({seasons} seasons)");
+            seasons++;
+        }
+
+        Console.WriteLine($"survived {daysEnd} i ({seasons} seasons)");
     }
 }
