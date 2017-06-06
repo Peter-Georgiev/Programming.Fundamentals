@@ -13,7 +13,7 @@ class CatchTheThief
             array[i] = long.Parse(Console.ReadLine());
         }
 
-        long result = 0;        
+        long result = 0;
         for (int i = 0; i < array.Length; i++)
         {
             bool isLong = int.MaxValue <= array[i] && n <= array[i] &&
@@ -38,7 +38,7 @@ class CatchTheThief
                 result = array[i];
                 break;
             }
-        }       
+        }
 
         Console.WriteLine(result);
     }
