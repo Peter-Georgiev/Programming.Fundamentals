@@ -45,6 +45,6 @@ class PowerPlants
             seasons++; // Added seasens
         }
 
-        Console.WriteLine($"survived {daysEnd} days ({seasons} season)");
+        Console.WriteLine($"survived {daysEnd} days ({seasons} seasons)");
     }
 }
