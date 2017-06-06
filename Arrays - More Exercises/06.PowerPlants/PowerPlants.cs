@@ -5,48 +5,46 @@ class PowerPlants
 {
     static void Main()
     {
-        int[] flowers = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+        int[] forest = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
 
         int daysEnd = 0;
         int seasons = 0;
 
-        while (flowers.Max() != 0)
+        while (!forest.Max().Equals(0))
         {
-
-            for (int i = 0; i < flowers.Length; i++) //days flowers
+            for (int i = 0; i < forest.Length; i++) //Days
             {
-                for (int j = 0; j < flowers.Length; j++) //individual flowers
+                for (int j = 0; j < forest.Length; j++)//individual
                 {
-                    if (i != j && flowers[j] > 0)
+                    if (i != j && forest[j] > 0) 
                     {
-                        flowers[j]--;
+                        forest[j]--;
                     }
                 }
 
                 daysEnd++;
-                if (flowers.Max() == 0)
+                if (forest.Max().Equals(0)) //All days equals 0
                 {
                     break;
                 }
             }
 
-            if (flowers.Max() == 0)
+            if (forest.Max().Equals(0)) //all days equals 0
             {
                 break;
             }
-
-            // End of season
-            for (int i = 0; i < flowers.Length; i++)
+            
+            for (int i = 0; i < forest.Length; i++) //End of seasons
             {
-                if (flowers[i] > 0)
+                if (forest[i] > 0)
                 {
-                    flowers[i]++;
+                    forest[i]++;                    
                 }
             }
 
-            seasons++;
+            seasons++; // Added seasens
         }
 
-        Console.WriteLine($"survived {daysEnd} i ({seasons} seasons)");
+        Console.WriteLine($"survived {daysEnd} days ({seasons} season)");
     }
 }
