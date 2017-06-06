@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.RemoveElementsAtOddPositions", "01.RemoveElementsAtOddPositions\01.RemoveElementsAtOddPositions.csproj", "{D3951943-9B85-400D-AF99-43C9D53484B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.TrackDownloader", "02.TrackDownloader\02.TrackDownloader.csproj", "{B5F1ED72-149F-46DB-95F6-6E3B06A18D85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D3951943-9B85-400D-AF99-43C9D53484B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3951943-9B85-400D-AF99-43C9D53484B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3951943-9B85-400D-AF99-43C9D53484B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F1ED72-149F-46DB-95F6-6E3B06A18D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5F1ED72-149F-46DB-95F6-6E3B06A18D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5F1ED72-149F-46DB-95F6-6E3B06A18D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F1ED72-149F-46DB-95F6-6E3B06A18D85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
