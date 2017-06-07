@@ -6,7 +6,7 @@ class SortNumbers
 {
     static void Main()
     {
-        // 8 2 7 3   -   2 <= 3 <= 7 <= 8
+        // in: 8 2 7 3   -  result: 2 <= 3 <= 7 <= 8
         List<double> inputNumber = Console.ReadLine()
             .Split(' ')
             .Select(Double.Parse)
