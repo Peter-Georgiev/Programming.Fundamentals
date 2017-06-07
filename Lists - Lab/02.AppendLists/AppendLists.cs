@@ -7,16 +7,39 @@ class AppendLists
     static void Main()
     {
         string input = Console.ReadLine();
-        string[] blackList = Console.ReadLine().Split(' ').ToArray();
-        List<string> fileNames = new List<string>();
-        List<string> trackDownload = new List<string>();
+                
+        List<int> printInput = new List<int>();
+        string temp = string.Empty;
+        int count = 0;
 
-        for (int i = input.Length; i >= 0; i--)
+        while (count < input.Length)
         {
+            for (int i = count; i < input.Length; i++, count++)
+            {
+                if ((char)input[i] != '|')
+                {
+                    temp += Char.ToString(input[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
 
-        }
+            count++;
+            int[] tempArr = temp
+                .Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries)                
+                .Select(Int32.Parse)
+                .ToArray();
+            Array.Reverse(tempArr);
+            temp = string.Empty;
 
-        //Console.WriteLine(string.Join(" ", fileNames));
+            foreach (var item in tempArr)
+            {
+                printInput.Insert(0, item);
+            }
+        }        
+
+        Console.WriteLine(string.Join(" ", printInput));
     }
-
 }
