@@ -7,33 +7,53 @@ class TrackDownloader
     static void Main()
     {
         string[] blackList = Console.ReadLine().Split(' ').ToArray();
-        List<string> fileNames = new List<string>();
-        List<string> trackDownload = new List<string>();
-        string inputFileName = Console.ReadLine();
 
-        while (!inputFileName.Equals("end"))
+        List<string> filenames = ReadFilname();
+
+        List<string> printFilename = PrintFilename(blackList, filenames);
+
+        printFilename.ForEach(Console.WriteLine);
+    }
+
+    private static List<string> PrintFilename(string[] blackList, List<string> filenames)
+    {
+        List<string> printFilename = new List<string>(filenames.Count);
+
+        for (int i = 0; i < filenames.Count; i++)
         {
-            fileNames.Add(inputFileName);
+            bool isBlackList = false;
 
-            for (int i = 0; i < fileNames.Count; i++)
+            for (int j = 0; j < blackList.Length; j++)
             {
-                string tempfileName = fileNames[i];
-                if (tempfileName.Contains(blackList[0]))
+                isBlackList = filenames[i].Contains(blackList[j]);
+
+                if (filenames[i].Contains(blackList[j]))
                 {
-                    trackDownload.Add(fileNames[i]);
+                    break;
                 }
             }
 
-
-            inputFileName = Console.ReadLine();
+            if (!isBlackList)
+            {
+                printFilename.Add(filenames[i]);
+            }
+            printFilename.Sort();
         }
 
-        foreach (var print in trackDownload)
+        return printFilename;
+    }
+
+    private static List<string> ReadFilname()
+    {
+        List<string> filenaames = new List<string>();
+        string readFilname = Console.ReadLine();
+
+        while (!readFilname.Equals("end"))
         {
-            Console.WriteLine(print);
+            filenaames.Add(readFilname);
+            readFilname = Console.ReadLine();
         }
 
-        //Console.WriteLine(string.Join(" ", fileNames));
-
+        return filenaames;
     }
 }
