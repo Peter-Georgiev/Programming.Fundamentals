@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.FlipListSides", "04.Flip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.TearListInHalf", "05.TearListInHalf\05.TearListInHalf.csproj", "{3803669B-54B6-462F-A01B-EC2ED8D32412}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.StuckZipper", "06.StuckZipper\06.StuckZipper.csproj", "{9BD88048-FEF1-407C-B1AF-4B0935F984C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3803669B-54B6-462F-A01B-EC2ED8D32412}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3803669B-54B6-462F-A01B-EC2ED8D32412}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3803669B-54B6-462F-A01B-EC2ED8D32412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD88048-FEF1-407C-B1AF-4B0935F984C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD88048-FEF1-407C-B1AF-4B0935F984C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD88048-FEF1-407C-B1AF-4B0935F984C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD88048-FEF1-407C-B1AF-4B0935F984C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
