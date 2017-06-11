@@ -6,43 +6,103 @@ class StuckZipper
 {
     static void Main()
     {
-        int[] firstLine = ReadLine();
-        int[] secondLine = ReadLine();
+        List<int> firstLine = ReadLine();
+        List<int> secondLine = ReadLine();
 
-        List<int> zipping = ZippingLine(firstLine, secondLine);
+        int minCount = FindMinDigits(firstLine, secondLine);
 
-        Console.WriteLine(string.Join(" ", zipping));
+        firstLine = RemoveElements(minCount, firstLine);
+        secondLine = RemoveElements(minCount, secondLine);
+
+        PrintZippingLine(firstLine, secondLine);
     }
 
-    private static int[] ReadLine()
+    private static List<int> ReadLine()
     {
-        int[] readLine = Console.ReadLine()
+        List<int> readLine = Console.ReadLine()
             .Split(' ')
             .Select(int.Parse)
-            .ToArray();
+            .ToList();
+
         return readLine;
     }
 
-    private static List<int> ZippingLine(int[] firstLine, int[] secondLine)
+    private static int FindMinDigits(List<int> firstLine, List<int> secondLine)
     {
-        List<int> zippingLine = new List<int>();
+        string strFirst = firstLine
+            .Min(x => Math.Abs(x))
+            .ToString();
+        int nFirst = strFirst.Length;
+
+        string strSecond = secondLine
+            .Min(x => Math.Abs(x))
+            .ToString();
+        int nSecond = strSecond.Length;
+
+        int findMinDigits = Math.Min(nFirst, nSecond);
+
+        return findMinDigits;
+    }
+
+    private static List<int> RemoveElements(int minCount, List<int> inputLine)
+    {
+        for (int i = 0; i < inputLine.Count; i++)
+        {
+            byte count = 0;
+            int currentNumber = Math.Abs(inputLine[i]);
+
+            while (currentNumber > 0)
+            {
+                currentNumber /= 10;
+                count++;
+            }
+
+            if (count > minCount)
+            {
+                inputLine.RemoveAt(i);
+                i--;
+            }
+        }        
+
+        return inputLine;
+    }
+
+    private static void PrintZippingLine(List<int> firstLine, List<int> secondLine)
+    {
+        List<int> zippingLine = new List<int>(firstLine.Count + secondLine.Count);
         byte countFirstLine = 0;
         byte countSecondLine = 0;
 
-        for (int i = 0; i < firstLine.Length + secondLine.Length; i++)
+        if (firstLine.Count.Equals(0))
         {
-            if (i % 2 == 0)
+            zippingLine = secondLine;
+        }
+        else if (secondLine.Count.Equals(0))
+        {
+            zippingLine = firstLine;
+        }
+        else
+        {
+            for (int i = 0; i < firstLine.Count + secondLine.Count; i++)
             {
-                zippingLine.Add(secondLine[countSecondLine]);
-                countSecondLine++;
-            }
-            else
-            {
-                zippingLine.Add(firstLine[countFirstLine]);
-                countFirstLine++;
+                if (i % 2 == 0 && secondLine.Count > countSecondLine)
+                {
+                    zippingLine.Add(secondLine[countSecondLine]);
+                    countSecondLine++;
+                }
+                else if (firstLine.Count > countFirstLine)
+                {
+                    zippingLine.Add(firstLine[countFirstLine]);
+                    countFirstLine++;
+                }
+                else if (secondLine.Count > countSecondLine)
+                {
+                    zippingLine.Add(secondLine[countSecondLine]);
+                    countSecondLine++;
+                }
             }
         }
 
-        return zippingLine;
+        Console.WriteLine(string.Join(" ", zippingLine));
     }
 }
