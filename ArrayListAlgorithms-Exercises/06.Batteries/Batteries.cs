@@ -11,7 +11,6 @@ class Batteries
         int hour = int.Parse(Console.ReadLine());
 
         PrintStatusBattery(GetStatusBattery(capacities, usagePerHour, hour));
-
     }
 
     static List<string> GetStatusBattery(double[] capacities, double[] usagePerHour, int hour)
