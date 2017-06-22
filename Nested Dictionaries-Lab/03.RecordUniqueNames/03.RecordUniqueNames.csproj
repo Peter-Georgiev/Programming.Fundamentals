@@ -7,7 +7,7 @@
     <ProjectGuid>{78E0DB81-CECA-45A1-A869-0BA8F3F2CB82}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>_03.RecordUniqueNames</RootNamespace>
-    <AssemblyName>_03.RecordUniqueNames</AssemblyName>
+    <AssemblyName>03.RecordUniqueNames</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,11 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="RecordUniqueNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
