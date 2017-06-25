@@ -10,9 +10,9 @@ class Winecraft
 
         int n = byte.Parse(Console.ReadLine());
 
-        bool hasExit = true;
+        var countGrapes = readLine.Count();
 
-        while (hasExit)
+        while (countGrapes >= n)
         {
             for (int count = 1; count <= n; count++)
             {
@@ -21,37 +21,78 @@ class Winecraft
                 RemovePreviousAndNextIndex(readLine);
             }
 
-            bool hasCount = readLine.FindAll(x => x > n).Count < n && n >= readLine.Min();
-            
-            if (!hasCount)
-            {
-                for (int set = 0; set < readLine.Count; set++)
-                {
-                    if (readLine[set] < n)
-                    {
-                        readLine[set] = 0;
-                    }
-                }
+            countGrapes = readLine.Where(x => x >= n).Count();
 
-                hasExit = true;
-            }
-            else
+            for (int set = 0; set < readLine.Count; set++)
             {
-                hasExit = false;
-            }
-        }        
+                if (readLine[set] <= n)
+                {
+                    readLine[set] = 0;
+                    //countGrapes--;
+                }
+            }            
+        }         
 
         PrintGrapes(readLine, n);
     }
 
-    private static void RemovePreviousAndNextIndex(List<int> readLine)
+    static void AddGrapes(List<int> readLine)
+    {
+        for (int i = 0; i < readLine.Count; i++)
+        {
+            if (readLine[i] > 0)
+            {
+                readLine[i]++;
+            }
+        }
+
+        bool hasNextIndex = false;
+
+        for (int i = 0; i < readLine.Count; i++)
+        {
+            bool hasFirstReadLine = i == 0;
+            bool hasLastReadLine = i == readLine.Count - 1;
+
+            if (!hasFirstReadLine && !hasLastReadLine)
+            {
+                int previousIndex = i - 1;
+                int nextIndex = i + 1;
+
+                bool hasLeftAndOneGrapes =
+                    readLine[i] > readLine[previousIndex] && readLine[i] > readLine[nextIndex];
+
+                if (hasLeftAndOneGrapes)
+                {
+                    if (readLine[previousIndex] > 0)
+                    {
+                        if (hasNextIndex)
+                        {
+                            hasNextIndex = false;
+                        }
+                        else
+                        {
+                            readLine[previousIndex]--;
+                        }
+                    }
+
+                    if (readLine[nextIndex] > 0)
+                    {
+                        readLine[nextIndex]--;
+                        hasNextIndex = true;
+                    }
+                }
+            }
+        }
+    }
+
+    static void RemovePreviousAndNextIndex(List<int> readLine)
     { 
         for (int i = 0; i < readLine.Count; i++)
         {
-            bool isFirstReadLine = i == 0;
-            bool isLastReadLine = i == readLine.Count - 1;
+            bool hasFirstReadLine = i == 0;
+            bool hasLastReadLine = i == readLine.Count - 1;
 
-            if (!isFirstReadLine && !isLastReadLine)
+            if (!hasFirstReadLine && !hasLastReadLine)
             {
                 int previousIndex = i - 1;
                 int nextIndex = i + 1;
@@ -74,61 +115,18 @@ class Winecraft
                     }
                 }
             }
-        }
+        }        
     }
-
-    static void AddGrapes(List<int> readLine)
-    {
-        for (int i = 0; i < readLine.Count; i++)
-        {
-            if (readLine[i] > 0)
-            {
-                readLine[i]++;
-            }            
-        }
-
-        bool hasNextIndex = false;
-
-        for (int i = 0; i < readLine.Count; i++)
-        {
-            bool hasFirstReadLine = i == 0;
-            bool hasLastReadLine = i == readLine.Count - 1;
-
-            if (!hasFirstReadLine && !hasLastReadLine)
-            {
-                int previousIndex = i - 1;
-                int nextIndex = i + 1;
-
-                bool hasLeftAndOneGrapes =
-                    readLine[i] > readLine[previousIndex] && readLine[i] > readLine[nextIndex];
-
-                if (hasLeftAndOneGrapes)
-                {
-                    if (hasNextIndex)
-                    {
-                        hasNextIndex = false;
-                    }
-                    else
-                    {
-                        readLine[previousIndex] = Math.Max(readLine[previousIndex] - 1, 0);
-                    }
-
-                    readLine[nextIndex] = Math.Max(readLine[nextIndex] - 1, 0);
-                    hasNextIndex = true;
-                }
-            }
-        }
-    }
-
+    
     static void PrintGrapes(List<int> readLine, int n)
     {
-        Console.WriteLine(string.Join(" ", readLine.FindAll(x => x > n)));
+        Console.WriteLine(string.Join(" ", readLine.Where(x => x > n)));
     }
 
     static List<int> ReadLine()
     {
         var readLLine = Console.ReadLine()
-            .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+            .Split(' ')
             .Select(int.Parse)
             .ToList();
 
