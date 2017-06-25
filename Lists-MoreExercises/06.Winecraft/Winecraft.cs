@@ -21,7 +21,7 @@ class Winecraft
                 RemovePreviousAndNextIndex(readLine);
             }
 
-            countGrapes = readLine.Where(x => x >= n).Count();
+            countGrapes = readLine.Where(x => x > n).Count();
 
             for (int set = 0; set < readLine.Count; set++)
             {
