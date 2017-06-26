@@ -4,132 +4,109 @@ using System.Collections.Generic;
 
 class Winecraft
 {
+    static List<int> grapes;
     static void Main()
     {
-        List<int> readLine = ReadLine();
-
-        int n = byte.Parse(Console.ReadLine());
-
-        var countGrapes = readLine.Count();
-
-        while (countGrapes >= n)
-        {
-            for (int count = 1; count <= n; count++)
-            {
-                AddGrapes(readLine);
-
-                RemovePreviousAndNextIndex(readLine);
-            }
-
-            countGrapes = readLine.Where(x => x > n).Count();
-
-            for (int set = 0; set < readLine.Count; set++)
-            {
-                if (readLine[set] <= n)
-                {
-                    readLine[set] = 0;
-                    //countGrapes--;
-                }
-            }            
-        }         
-
-        PrintGrapes(readLine, n);
-    }
-
-    static void AddGrapes(List<int> readLine)
-    {
-        for (int i = 0; i < readLine.Count; i++)
-        {
-            if (readLine[i] > 0)
-            {
-                readLine[i]++;
-            }
-        }
-
-        bool hasNextIndex = false;
-
-        for (int i = 0; i < readLine.Count; i++)
-        {
-            bool hasFirstReadLine = i == 0;
-            bool hasLastReadLine = i == readLine.Count - 1;
-
-            if (!hasFirstReadLine && !hasLastReadLine)
-            {
-                int previousIndex = i - 1;
-                int nextIndex = i + 1;
-
-                bool hasLeftAndOneGrapes =
-                    readLine[i] > readLine[previousIndex] && readLine[i] > readLine[nextIndex];
-
-                if (hasLeftAndOneGrapes)
-                {
-                    if (readLine[previousIndex] > 0)
-                    {
-                        if (hasNextIndex)
-                        {
-                            hasNextIndex = false;
-                        }
-                        else
-                        {
-                            readLine[previousIndex]--;
-                        }
-                    }
-
-                    if (readLine[nextIndex] > 0)
-                    {
-                        readLine[nextIndex]--;
-                        hasNextIndex = true;
-                    }
-                }
-            }
-        }
-    }
-
-    static void RemovePreviousAndNextIndex(List<int> readLine)
-    { 
-        for (int i = 0; i < readLine.Count; i++)
-        {
-            bool hasFirstReadLine = i == 0;
-            bool hasLastReadLine = i == readLine.Count - 1;
-
-            if (!hasFirstReadLine && !hasLastReadLine)
-            {
-                int previousIndex = i - 1;
-                int nextIndex = i + 1;
-
-                bool hasLeftAndOneGrapes = 
-                    readLine[i] > readLine[previousIndex] && readLine[i] > readLine[nextIndex];
-
-                if (hasLeftAndOneGrapes)
-                {
-                    if (readLine[previousIndex] > 0)
-                    {
-                        readLine[i]++;
-                        readLine[previousIndex] = Math.Max(readLine[previousIndex] - 1, 0);
-                    }
-
-                    if (readLine[nextIndex] > 0)
-                    {
-                        readLine[i]++;
-                        readLine[nextIndex] = Math.Max(readLine[nextIndex] - 1, 0);
-                    }
-                }
-            }
-        }        
-    }
-    
-    static void PrintGrapes(List<int> readLine, int n)
-    {
-        Console.WriteLine(string.Join(" ", readLine.Where(x => x > n)));
-    }
-
-    static List<int> ReadLine()
-    {
-        var readLLine = Console.ReadLine()
-            .Split(' ')
+        grapes = Console.ReadLine()
+            .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(int.Parse)
             .ToList();
+        int growthDays = int.Parse(Console.ReadLine());
 
-        return readLLine;
+        do
+        {
+            for (int each = 0; each < growthDays; each++)
+            {
+                ProcessGrapes();
+            }
+
+            HibernateRetardedGrapes(growthDays);
+
+        } while (MightyGrapesAreMoreThan(growthDays));
+
+        RemoveDeadGrapes(ref grapes);
+
+        Console.WriteLine(string.Join(" ", grapes));
+    }
+
+    static void ProcessGrapes()
+    {
+        for (int index = 0; index < grapes.Count; index++)
+        {
+            if (!IsAlive(index))
+            {
+                continue;
+            }
+
+            if (IsGreaterGrape(index))
+            {
+                grapes[index]++;
+
+                if (IsAlive(index - 1))
+                {
+                    grapes[index]++;
+                    grapes[index - 1]--;
+                }
+
+                if (IsAlive(index + 1))
+                {
+                    grapes[index]++;
+                    grapes[index + 1]--;
+                }
+            }
+            else if (IsLesserGrape(index))
+            {
+            }
+            else
+            {
+                grapes[index]++;
+            }
+        }
+    }
+
+    static bool MightyGrapesAreMoreThan(int growthDays)
+    {
+        return grapes.Where(g => g > growthDays).Count() >= growthDays;
+    }
+
+    static void HibernateRetardedGrapes(int growthDays)
+    {
+        for (int set = 0; set < grapes.Count; set++)
+        {
+            if (grapes[set] <= growthDays)
+            {
+                grapes[set] = 0;
+            }
+        }
+    }
+
+    static void RemoveDeadGrapes(ref List<int> grapes)
+    {
+        grapes.RemoveAll(x => x == 0);
+    }
+
+    static bool IsAlive(int index)
+    {
+        if (index < 0 || index >= grapes.Count)
+        {
+            return false;
+        }
+
+        return grapes[index] > 0;
+    }
+
+    static bool IsGreaterGrape(int index)
+    {
+        if (index <= 0 || index >= (grapes.Count - 1))
+        {
+            return false;
+        }
+
+        return (grapes[index] > grapes[index - 1] && grapes[index] > grapes[index + 1]);
+    }
+
+    static bool IsLesserGrape(int index)
+    {
+        return (IsGreaterGrape(index - 1) || IsGreaterGrape(index + 1));
     }
 }
