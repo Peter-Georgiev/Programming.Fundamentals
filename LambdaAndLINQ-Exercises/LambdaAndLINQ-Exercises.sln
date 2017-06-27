@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.RegisterUsers", "01.Regi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.DefaultValues", "02.DefaultValues\02.DefaultValues.csproj", "{3C5D178D-3244-42C2-9F50-D3DCED404698}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.ShoppingSpree", "03.ShoppingSpree\03.ShoppingSpree.csproj", "{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3C5D178D-3244-42C2-9F50-D3DCED404698}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C5D178D-3244-42C2-9F50-D3DCED404698}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C5D178D-3244-42C2-9F50-D3DCED404698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
