@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9589A2F2-0A91-4377-B7CD-231F471C163A}</ProjectGuid>
+    <ProjectGuid>{AEFCDF90-A9C3-4CB3-A241-6E50DA916255}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_02.JapaneseRoulette</RootNamespace>
-    <AssemblyName>02.JapaneseRoulette</AssemblyName>
+    <RootNamespace>_02.BinarySearch</RootNamespace>
+    <AssemblyName>02.BinarySearch</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JapaneseRoulette.cs" />
+    <Compile Include="BinarySearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
