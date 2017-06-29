@@ -6,16 +6,15 @@ class ShoppingSpree
 {
     static void Main()
     {
-        Dictionary<string, double> dictionary = new Dictionary<string, double>();
+        Dictionary<string, decimal> dictionary = new Dictionary<string, decimal>();        
 
-        double budget = double.Parse(Console.ReadLine());
-        double sum = 0;
+        decimal budget = decimal.Parse(Console.ReadLine());
 
         while (true)
         {
             string readLine = Console.ReadLine();
 
-            if (readLine.ToLower().Equals("end"))
+            if (readLine.Equals("end"))
             {
                 break;
             }
@@ -25,38 +24,35 @@ class ShoppingSpree
                     .Split(' ')
                     .ToArray();
 
-                string key = input[0];
-                double value = double.Parse(input[1]);
+                string product = input[0];
+                decimal price = decimal.Parse(input[1]);
 
-                if (!dictionary.ContainsKey(key))
+                if (!dictionary.ContainsKey(product))
                 {
-                    dictionary.Add(key, value);
+                    dictionary.Add(product, price);
                 }
-
-                foreach (var item in dictionary)
+                else
                 {
-                    if (item.Key == key)
+                    Dictionary<string, decimal> tempDic = dictionary
+                        .Where(x => x.Key == product)
+                        .Where(x => x.Value > price)
+                        .ToDictionary(x => x.Key, x => price);
+
+                    foreach (var kvp in tempDic)
                     {
-                        if (item.Value > value)
-                        {
-                            dictionary[key] = value;
-                            break;
-                        }
-                    }
+                        dictionary[kvp.Key] = kvp.Value;
+                    }                    
                 }
-            }
-
-            sum = dictionary.Sum(x => x.Value);
+            } 
         }
 
-        if (budget >= sum && sum != 0)
+        if (budget >= dictionary.Sum(x => x.Value))
         {
             dictionary
-                .OrderByDescending(x => x.Value)
-                .OrderByDescending(x => x.Key)
+                .OrderBy(x => x.Key.Length)
+                .OrderByDescending(x => x.Value)                
                 .ToList()
-                .ForEach(x => Console.WriteLine("{0} costs {1:F2}", x.Key, x.Value));
-                
+                .ForEach(x => Console.WriteLine("{0} costs {1:F2}", x.Key, x.Value));   
         }
         else
         {

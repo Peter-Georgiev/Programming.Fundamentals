@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.DefaultValues", "02.Defa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.ShoppingSpree", "03.ShoppingSpree\03.ShoppingSpree.csproj", "{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.SoftUniBeerPong", "04.SoftUniBeerPong\04.SoftUniBeerPong.csproj", "{A199705C-8A69-4562-A276-DD6F9E6F9174}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BB8865A-DB85-4462-9F3C-F303AD2F51A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A199705C-8A69-4562-A276-DD6F9E6F9174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A199705C-8A69-4562-A276-DD6F9E6F9174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A199705C-8A69-4562-A276-DD6F9E6F9174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A199705C-8A69-4562-A276-DD6F9E6F9174}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
