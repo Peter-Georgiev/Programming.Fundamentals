@@ -6,64 +6,92 @@ class Extremums
 {
     static void Main()
     {
-        int[] readLine = Console.ReadLine()
-            .Split(' ').Select(int.Parse).ToArray();
+        List<string> input = ReadLine();
         string commant = Console.ReadLine();
 
         List<int> output = new List<int>();
+                
+        int sum = 0;
 
-        for (int i = 0; i < readLine.Length; i++)
-        {            
-            List<int> tempNumber = new List<int>();
-            int digit = readLine[i];
-            string tempStr = string.Empty;
-
-            while (digit > 0)
-            {
-                tempNumber.Add(digit % 10);
-                digit /= 10;
-            }
-            tempNumber.Reverse();
-            tempStr = string.Join(" ", tempNumber);
-
-            int[] leftRotation = tempStr.Split(' ').Select(int.Parse).ToArray();
-
-            for (int left = 0; left < leftRotation.Length - 1; left++)
-            {
-                var temp = leftRotation[left + 1];
-                leftRotation[left + 1] = leftRotation[left];
-                leftRotation[left] = temp;
-            }
-
-            int[] rightRotation = tempStr.Split(' ').Select(int.Parse).ToArray();
-
-            for (int right = rightRotation.Length - 1; right > 0; right--)
-            {
-                var temp = rightRotation[right - 1];
-                rightRotation[right - 1] = rightRotation[right];
-                rightRotation[right] = temp;
-            }
-
-            int leftR = Convert.ToInt32(string.Join("", leftRotation));
-            int rightR = Convert.ToInt32(string.Join("", rightRotation));
-            int input = Convert.ToInt32(string.Join("", readLine[i]));
-
-            tempNumber = new List<int>();
-
-            tempNumber.Add(leftR);
-            tempNumber.Add(rightR);
-            tempNumber.Add(input);
-
-            if (commant.Equals("Max"))
-            {
-                output.Add(tempNumber.Max());
-            }
-            else if (commant.Equals("Min"))
-            {
-                output.Add(tempNumber.Min());
-            }
+        if (commant.Equals("Min"))
+        {
+            MinValue(input, output, ref sum);
+        }
+        else if (commant.Equals("Max"))
+        {
+            MaxValue(input, output, ref sum);
         }
 
+        PrintResult(output);
+    }
+
+    static void MinValue(List<string> input, List<int> output, ref int sum)
+    {
+        int minValue = int.MaxValue;
+
+        for (int i = 0; i < input.Count; i++)
+        {
+            string element = input[i];
+
+            byte index = 0;
+
+            while (index <= element.Length)
+            {
+                if (int.Parse(element) < minValue)
+                {
+                    minValue = int.Parse(element);
+                }
+
+                element = element.Substring(1) + element.Substring(0, 1);
+
+                index++;
+            }
+
+            output.Add(minValue);
+            sum += minValue;
+            minValue = int.MaxValue;
+        }
+    }
+
+    static void MaxValue(List<string> input, List<int> output, ref int sum)
+    {
+        int maxValue = int.MinValue;
+
+        for (int i = 0; i < input.Count; i++)
+        {
+            string element = input[i];
+
+            byte index = 0;
+
+            while (index <= element.Length)
+            {
+                if (int.Parse(element) > maxValue)
+                {
+                    maxValue = int.Parse(element);
+                }
+
+                element = element.Substring(1) + element.Substring(0, 1);
+
+                index++;
+            }
+
+            output.Add(maxValue);
+            sum += maxValue;
+            maxValue = int.MinValue;
+        }
+    }
+
+    static List<string> ReadLine()
+    {
+        List<string> readLine = Console.ReadLine()            
+            .Split(' ')
+            .ToList();
+
+        return readLine;
+    }
+    
+    static void PrintResult(List<int> output)
+    {
         Console.WriteLine(string.Join(", ", output));
         Console.WriteLine(output.Sum());
     }

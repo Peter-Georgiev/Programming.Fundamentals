@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9589A2F2-0A91-4377-B7CD-231F471C163A}</ProjectGuid>
+    <ProjectGuid>{C408E47A-1DDC-47C4-BBA4-A0006BFDB377}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_02.JapaneseRoulette</RootNamespace>
-    <AssemblyName>02.JapaneseRoulette</AssemblyName>
+    <RootNamespace>_03.IncreasingCrisis</RootNamespace>
+    <AssemblyName>03.IncreasingCrisis</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="old.JapaneseRoulette.cs" />
+    <Compile Include="IncreasingCrisis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

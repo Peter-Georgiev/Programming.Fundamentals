@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.RabbitHole", "01.RabbitHole\01.RabbitHole.csproj", "{4D3744D3-7A3D-4BC1-8B18-EFD39731C21D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "old.02.JapaneseRoulette", "02.JapaneseRoulette\old.02.JapaneseRoulette.csproj", "{9589A2F2-0A91-4377-B7CD-231F471C163A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.JapaneseRoulette", "02.JapaneseRoulette\04.JapaneseRoulette.csproj", "{9589A2F2-0A91-4377-B7CD-231F471C163A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "old.03.IncreasingCrisis", "03.IncreasingCrisis\old.03.IncreasingCrisis.csproj", "{C408E47A-1DDC-47C4-BBA4-A0006BFDB377}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.IncreasingCrisis", "03.IncreasingCrisis\05.IncreasingCrisis.csproj", "{C408E47A-1DDC-47C4-BBA4-A0006BFDB377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4.Extremums", "4.Extremums\4.Extremums.csproj", "{93B9BAAB-1A11-4515-AD38-5663157EC6E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.Extremums", "4.Extremums\06.Extremums.csproj", "{93B9BAAB-1A11-4515-AD38-5663157EC6E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.BinarySearch", "02.BinarySearch\02.BinarySearch.csproj", "{AEFCDF90-A9C3-4CB3-A241-6E50DA916255}"
 EndProject
