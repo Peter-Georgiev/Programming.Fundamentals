@@ -9,6 +9,76 @@ class SoftUniBeerPong
         Dictionary<string, Dictionary<string, int>> gamesBase =
             new Dictionary<string, Dictionary<string, int>>();
 
+        gamesBase = InsertTeamUser();
+
+        gamesBase = IfOfThree(gamesBase);
+
+        gamesBase = EqualThree(gamesBase);
+
+        var sumDic = TeamPoints(gamesBase);
+
+        PrinTeamUser(gamesBase, sumDic);
+    }
+    
+    private static void PrinTeamUser(Dictionary<string, Dictionary<string, int>> gamesBase, Dictionary<string, int> sumDic)
+    {
+        byte count = 1;
+
+        foreach (var kvpSum in sumDic)
+        {
+            foreach (var kvpBase in gamesBase)
+            {
+                if (kvpSum.Key == kvpBase.Key)
+                {
+                    Console.WriteLine(
+                        $"{count}. {kvpBase.Key}; Players:");
+
+                    var players = kvpBase.Value
+                         .OrderByDescending(x => x.Value)
+                         .ToDictionary(x => x.Key, x => x.Value);
+
+                    foreach (var kvpPlayer in players)
+                    {
+                        Console.WriteLine(
+                            $"###{kvpPlayer.Key}: {kvpPlayer.Value}");
+                    }
+                }
+            }
+            count++;
+        }
+    }
+
+    private static Dictionary<string, int> TeamPoints(
+        Dictionary<string, Dictionary<string, int>> gamesBase)
+    {
+        var dictionary = 
+            new Dictionary<string, int>();
+
+        foreach (var kvpBase in gamesBase)
+        {
+            string team = kvpBase.Key;
+            int sum = kvpBase.Value.Values.Sum();
+
+            foreach (var kvpPlayer in kvpBase.Value)                
+            {
+                if (!dictionary.ContainsKey(team))
+                {
+                    dictionary.Add(team, sum);
+                }
+            }
+            
+        }
+
+        return dictionary
+            .OrderByDescending(x => x.Value)
+            .ToDictionary(x => x.Key, x => x.Value);
+    }    
+      
+    private static Dictionary<string, Dictionary<string, int>> InsertTeamUser()
+    {
+        var dictionary =
+            new Dictionary<string, Dictionary<string, int>>();
+
         while (true)
         {
             string readLine = Console.ReadLine();
@@ -22,40 +92,55 @@ class SoftUniBeerPong
                 string[] input = readLine
                     .Split(new[] { ' ', '|' }, StringSplitOptions.RemoveEmptyEntries)
                     .ToArray();
+
                 string player = input[0];
-                string team = input[1];                
+                string team = input[1];
                 int pointsMade = int.Parse(input[2]);
 
-                if (!gamesBase.ContainsKey(team))
+                if (!dictionary.ContainsKey(team))
                 {
-                    gamesBase.Add(team, new Dictionary<string, int>());
+                    dictionary.Add(team, new Dictionary<string, int>());
+                    dictionary[team][player] = pointsMade;
                 }
-                
-                gamesBase[team][player] = pointsMade;
-            }            
+
+                var t = dictionary.Values
+                 .SelectMany(list => list)
+                 .Distinct()
+                 .Count();
+
+            }
         }
-                
-        var tempGamesBase = gamesBase
+        return dictionary;
+    }
+
+    private static Dictionary<string, Dictionary<string, int>> IfOfThree(Dictionary<string, Dictionary<string, int>> gamesBase)
+    {
+        var dictionary = gamesBase
             .Where(x => x.Value.Keys.Count >= 3)
             .ToDictionary(x => x.Key, x => x.Value);
-        gamesBase.Clear();
+        return dictionary;
+    }
 
-        foreach (var kvp in tempGamesBase)
+    private static Dictionary<string, Dictionary<string, int>> EqualThree(Dictionary<string, Dictionary<string, int>> gamesBase)
+    {
+        var dictionary = new Dictionary<string, Dictionary<string, int>>();
+
+        foreach (var kvp in gamesBase)
         {
             string team = kvp.Key;
-            Dictionary<string, int> playerDic = kvp.Value;
+            Dictionary<string, int> playerdic = kvp.Value;
 
-            gamesBase.Add(team, new Dictionary<string, int>());
+            dictionary.Add(team, new Dictionary<string, int>());
 
             byte count = 0;
 
-            foreach (var kvpPlayer in playerDic)
+            foreach (var kvpplayer in playerdic)
             {
-                string player = kvpPlayer.Key;
-                int pointMode = kvpPlayer.Value;
+                string player = kvpplayer.Key;
+                int pointmode = kvpplayer.Value;
                 if (count < 3)
                 {
-                    gamesBase[team][player] = pointMode;
+                    dictionary[team][player] = pointmode;
                 }
                 else
                 {
@@ -64,13 +149,6 @@ class SoftUniBeerPong
                 count++;
             }
         }
-
-        tempGamesBase.Clear();
-
-        var result = gamesBase
-            .ToDictionary(x => x.Key, x => x.Value).Values;
-
-        Console.WriteLine();
-
+        return dictionary;
     }
 }
