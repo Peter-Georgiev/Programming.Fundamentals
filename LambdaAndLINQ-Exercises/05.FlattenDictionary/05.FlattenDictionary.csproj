@@ -7,7 +7,7 @@
     <ProjectGuid>{95779AA7-5BCB-4CBD-A6EA-BB6BE63F0866}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>_05.FlattenDictionary</RootNamespace>
-    <AssemblyName>_05.FlattenDictionary</AssemblyName>
+    <AssemblyName>05.FlattenDictionary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,11 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="FlattenDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
