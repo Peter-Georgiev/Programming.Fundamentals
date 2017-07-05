@@ -1,4 +1,4 @@
-﻿namespace RectanglePositionClass
+﻿namespace RectangleClass
 {
     public class Rectangle
     {
