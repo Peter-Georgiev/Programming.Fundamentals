@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.Exercises", "01.Exercises\01.Exercises.csproj", "{B767B3D6-A40E-41A3-B419-C644034ABB75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.OptimizedBankingSystem", "02.OptimizedBankingSystem\02.OptimizedBankingSystem.csproj", "{C323611B-5489-402C-97CA-56FC81D8766C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B767B3D6-A40E-41A3-B419-C644034ABB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B767B3D6-A40E-41A3-B419-C644034ABB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B767B3D6-A40E-41A3-B419-C644034ABB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B767B3D6-A40E-41A3-B419-C644034ABB75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C323611B-5489-402C-97CA-56FC81D8766C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C323611B-5489-402C-97CA-56FC81D8766C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C323611B-5489-402C-97CA-56FC81D8766C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C323611B-5489-402C-97CA-56FC81D8766C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
