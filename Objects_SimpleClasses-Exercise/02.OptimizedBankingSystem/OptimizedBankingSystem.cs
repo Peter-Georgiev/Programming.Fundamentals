@@ -15,7 +15,7 @@ class OptimizedBankingSystem
 {
     static void Main()
     {
-        var baseBank = new Dictionary<string, Dictionary<string, decimal>>();
+        List<BankAccount> baseBank = new List<BankAccount>();
 
         while (true)
         {
@@ -34,59 +34,18 @@ class OptimizedBankingSystem
         PrintBankAccount(baseBank);
     }
 
-    private static void PrintBankAccount(Dictionary<string, Dictionary<string, decimal>> baseBank)
+    private static void PrintBankAccount(List<BankAccount> baseBank)
     {
-        var t = baseBank
-            .OrderByDescending(bank => bank.Value.Sum(account => account.Value))
-            .ThenByDescending(bank => bank.Value.Max(account => account.Value))
-            //.OrderByDescending(x => x.Key.Length)
-            .ToDictionary(x => x.Key, x => x.Value.OrderByDescending(a => a.Key.Length));
-            
-
-
-
-        foreach (var item in t)
-        {
-            var n = item.Value.OrderByDescending(x => x.Key.Length);
-
-            foreach (var account in n)
-            {
-                Console.WriteLine($"{account.Key} -> {account.Value} ({item.Key})");
-            }
-
-        }
-
-            //.ToList()
-            
-            //.ForEach(bank => 
-            //bank.Value
-            //.ToList()
-            //.OrderByDescending(account => account.Key.Length)
-            //.ToList()
-            //.ForEach(account => Console.WriteLine($"{account.Key} -> {account.Value} ({bank.Key})")));
-
-
-        Console.WriteLine();
+        baseBank
+            .OrderByDescending(x => x.Balance)
+            .ThenBy(x => x.Bank.Length)
+            .ToList()
+            .ForEach(x => Console.WriteLine($"{x.Name} -> {x.Balance} ({x.Bank})"));
     }
 
-    private static void IsertBankAccount(Dictionary<string, Dictionary<string, decimal>> baseBank, string readLine)
+    private static void IsertBankAccount(List<BankAccount> baseBank, string readLine)
     {
-        BankAccount readBankAccount = ReadBankAccount(readLine);
-
-        if (!baseBank.ContainsKey(readBankAccount.Bank))
-        {
-            baseBank
-                .Add(readBankAccount.Bank, new Dictionary<string, decimal>());
-        }
-
-        if (!baseBank[readBankAccount.Bank].ContainsKey(readBankAccount.Name))
-        {
-            baseBank[readBankAccount.Bank]
-                .Add(readBankAccount.Name, 0);
-        }
-
-        baseBank[readBankAccount.Bank][readBankAccount.Name] +=
-            readBankAccount.Balance;
+           baseBank.Add(ReadBankAccount(readLine));
     }
 
     static BankAccount ReadBankAccount(string readLine)
