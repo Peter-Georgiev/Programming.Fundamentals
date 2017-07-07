@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.Shellbound", "01.Shellbound\01.Shellbound.csproj", "{91A0007E-7B79-4DF0-9C6E-0047CBA1AA2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.Shellbound", "01.Shellbound\04.Shellbound.csproj", "{91A0007E-7B79-4DF0-9C6E-0047CBA1AA2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.DictRefAdvanced", "02.DictRefAdvanced\02.DictRefAdvanced.csproj", "{687EC25A-B6ED-414A-A178-2ABE6343B853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.DictRefAdvanced", "02.DictRefAdvanced\05.DictRefAdvanced.csproj", "{687EC25A-B6ED-414A-A178-2ABE6343B853}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.ForumTopics", "03.ForumTopics\03.ForumTopics.csproj", "{1B32BE3F-AD3D-4199-8A4D-5B405F6F684B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.ForumTopics", "03.ForumTopics\06.ForumTopics.csproj", "{1B32BE3F-AD3D-4199-8A4D-5B405F6F684B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.SocialMediaPosts", "04.SocialMediaPosts\04.SocialMediaPosts.csproj", "{F3B47FCC-CEDF-4C83-B747-0712F16D1144}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.SocialMediaPosts", "04.SocialMediaPosts\07.SocialMediaPosts.csproj", "{F3B47FCC-CEDF-4C83-B747-0712F16D1144}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.Wardrobe", "01.Wardrobe\01.Wardrobe.csproj", "{3295ADE6-27C0-458A-A459-BEBB2B8C7D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.Key-KeyValue-Value", "02.Key-KeyValue-Value\02.Key-KeyValue-Value.csproj", "{E9BD454E-0804-4D56-A085-FF2A22DFC108}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.TravelCompany", "03.TravelCompany\03.TravelCompany.csproj", "{755DDFA4-48E6-4B4C-BA88-C3EFE435F947}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{3295ADE6-27C0-458A-A459-BEBB2B8C7D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3295ADE6-27C0-458A-A459-BEBB2B8C7D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3295ADE6-27C0-458A-A459-BEBB2B8C7D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9BD454E-0804-4D56-A085-FF2A22DFC108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9BD454E-0804-4D56-A085-FF2A22DFC108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9BD454E-0804-4D56-A085-FF2A22DFC108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9BD454E-0804-4D56-A085-FF2A22DFC108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{755DDFA4-48E6-4B4C-BA88-C3EFE435F947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{755DDFA4-48E6-4B4C-BA88-C3EFE435F947}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{755DDFA4-48E6-4B4C-BA88-C3EFE435F947}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{755DDFA4-48E6-4B4C-BA88-C3EFE435F947}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
