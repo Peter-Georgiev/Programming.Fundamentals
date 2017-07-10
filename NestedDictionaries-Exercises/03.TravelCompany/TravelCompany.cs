@@ -42,7 +42,7 @@ class TravelCompany
                 }
                 else
                 {
-                        Console.WriteLine($"{tokens[0]} -> all except " +
+                    Console.WriteLine($"{tokens[0]} -> all except " +
                             $"{int.Parse(tokens[1]) - kvpSum} accommodated");
                 }
             }

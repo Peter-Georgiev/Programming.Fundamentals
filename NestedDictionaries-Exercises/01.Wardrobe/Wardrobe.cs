@@ -6,13 +6,11 @@ class Wardrobe
 {
     static void Main()
     {
-        var dictionari = new Dictionary<string, Dictionary<string, int>>();
+        var dictionary = new Dictionary<string, Dictionary<string, int>>();
+        
+        InsertColor(dictionary);
 
-        byte n = byte.Parse(Console.ReadLine());
-
-        InsertColor(dictionari, n);
-
-        PrintResult(dictionari);
+        PrintResult(dictionary);
     }
 
     private static void PrintResult(Dictionary<string, Dictionary<string, int>> dictionary)
@@ -21,46 +19,59 @@ class Wardrobe
                 .Split(' ')
                 .ToArray();
 
-        foreach (var kvp in dictionary)
+        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in dictionary)
         {
-            Console.WriteLine($"{kvp.Key} clothes:");
+            string color = kvp.Key;
+            Console.WriteLine($"{color} clothes:");
 
-            foreach (var item in kvp.Value)
+            Dictionary<string, int> clothData = kvp.Value;
+
+            foreach (var item in clothData)
             {
-                if (kvp.Key.Equals(tokens[0]) && item.Key.Equals(tokens[1]))
+                string cloth = item.Key;
+                int quantity = item.Value;
+
+                Console.Write($"* {cloth} - {quantity}");
+
+                if (color == tokens[0] && cloth == tokens[1])
                 {
-                    Console.WriteLine($"* {item.Key} - {item.Value} (found!)");
+                    Console.Write($" (found!)");
                 }
-                else
-                {
-                    Console.WriteLine($"* {item.Key} - {item.Value}");
-                }
+
+                Console.WriteLine();
             }
         }
     }
 
-    private static void InsertColor(Dictionary<string, Dictionary<string, int>> dictionari, byte n)
+    private static void InsertColor(Dictionary<string, Dictionary<string, int>> dictionary)
     {
-        for (int i = 0; i < n; i++)
+        int n = int.Parse(Console.ReadLine());
+
+        for (int count = 0; count < n; count++)
         {
             string[] tokens = Console.ReadLine()
-                .Split(" ,".ToCharArray(),
+                .Split(new string[] { " -> " },
                 StringSplitOptions.RemoveEmptyEntries)
                 .ToArray();
-
-            for (int read = 2; read < tokens.Length; read++)
+            string color = tokens[0];
+            
+            if (!dictionary.ContainsKey(color))
             {
-                if (!dictionari.ContainsKey(tokens[0]))
+                dictionary.Add(color, new Dictionary<string, int>());
+            }
+
+            string[] items = tokens[1]
+                .Split(',')
+                .ToArray();
+
+            foreach (var item in items)
+            {
+                if (!dictionary[color].ContainsKey(item))
                 {
-                    dictionari.Add(tokens[0], new Dictionary<string, int>());
+                    dictionary[color].Add(item, 0);
                 }
 
-                if (!dictionari[tokens[0]].ContainsKey(tokens[read]))
-                {
-                    dictionari[tokens[0]].Add(tokens[read], 0);
-                }
-
-                dictionari[tokens[0]][tokens[read]]++;
+                dictionary[color][item]++;
             }
         }
     }
