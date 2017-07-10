@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.LambadaExpressions", "01.LambadaExpressions\05.LambadaExpressions.csproj", "{3BA21315-A530-4B38-841C-E9AFFEEADD01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.OrderedBankingSystem", "06.OrderedBankingSystem\06.OrderedBankingSystem.csproj", "{ADC704F2-BECC-41EA-AE6C-74B96772D3E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.LINQuistics", "07.LINQuistics\07.LINQuistics.csproj", "{E2B94062-99A8-40D2-AC9B-06E1CFE385F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.ArrayData", "01.ArrayData\01.ArrayData.csproj", "{4C02371F-50BF-4E06-9F75-1E3BB7BED7E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.StringDecryption", "02.StringDecryption\02.StringDecryption.csproj", "{889E7C42-2BB3-41C9-A8A2-5D0C71897E68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.Camping", "03.Camping\03.Camping.csproj", "{C0E1DEE1-0559-4B05-A5CF-5F23663EA20F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.MostValuedCustomer", "04.MostValuedCustomer\04.MostValuedCustomer.csproj", "{BC6AD768-49B5-4551-BBA1-966341D495C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +35,22 @@ Global
 		{E2B94062-99A8-40D2-AC9B-06E1CFE385F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2B94062-99A8-40D2-AC9B-06E1CFE385F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2B94062-99A8-40D2-AC9B-06E1CFE385F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C02371F-50BF-4E06-9F75-1E3BB7BED7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C02371F-50BF-4E06-9F75-1E3BB7BED7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C02371F-50BF-4E06-9F75-1E3BB7BED7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C02371F-50BF-4E06-9F75-1E3BB7BED7E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{889E7C42-2BB3-41C9-A8A2-5D0C71897E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{889E7C42-2BB3-41C9-A8A2-5D0C71897E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{889E7C42-2BB3-41C9-A8A2-5D0C71897E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{889E7C42-2BB3-41C9-A8A2-5D0C71897E68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E1DEE1-0559-4B05-A5CF-5F23663EA20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E1DEE1-0559-4B05-A5CF-5F23663EA20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E1DEE1-0559-4B05-A5CF-5F23663EA20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E1DEE1-0559-4B05-A5CF-5F23663EA20F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC6AD768-49B5-4551-BBA1-966341D495C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC6AD768-49B5-4551-BBA1-966341D495C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC6AD768-49B5-4551-BBA1-966341D495C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC6AD768-49B5-4551-BBA1-966341D495C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
