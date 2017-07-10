@@ -6,7 +6,7 @@ class CottageScraper
 {
     static void Main()
     {
-        Dictionary<string, List<int>> dictionary = InsertTypesAndLenghts();                
+        Dictionary<string, List<int>> dictionary = InsertTypesAndLenghts();
 
         string[] result = CalculatePriceMeterSubtotal(dictionary);
 
@@ -22,9 +22,9 @@ class CottageScraper
         string typeTree = typeAndLenght[0];
         int lenghtTree = int.Parse(typeAndLenght[1]);
 
-        double average = dictionary.SelectMany(x => x.Value).ToList().Average();
+        double average = Math.Round(dictionary.SelectMany(x => x.Value).ToList().Average(), 2);
 
-        double usedLongsSum = dictionary
+        double usedLongs = average * dictionary
             .Where(x => x.Key.Equals(typeTree))
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
@@ -32,25 +32,18 @@ class CottageScraper
             .Where(x => x >= lenghtTree)
             .Sum();
 
-        double usedLongs = Math.Round(average, 2) * Math.Round(usedLongsSum, 2);
-
-        double unusedInUsedLongs = dictionary
+        double unusedLogs = (dictionary
             .Where(x => x.Key.Equals(typeTree))
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
             .ToList()
             .Where(x => x < lenghtTree)
-            .Sum();
-
-        double unusedLogsSum = dictionary
+            .Sum() + dictionary
             .Where(x => x.Key != typeTree)
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
             .ToList()
-            .Sum();
-
-        double unusedLogs = 
-            (Math.Round(unusedInUsedLongs, 2) + Math.Round(unusedLogsSum, 2)) * Math.Round(average, 2) * 0.25;
+            .Sum()) * average * 0.25d;
 
         result[0] = $"Price per meter: ${average:F2}";
         result[1] = $"Used logs price: ${usedLongs:F2}";
@@ -58,7 +51,7 @@ class CottageScraper
         result[3] = $"CottageScraper subtotal: ${usedLongs + unusedLogs:F2}";
 
         return result;
-    }    
+    }
 
     private static Dictionary<string, List<int>> InsertTypesAndLenghts()
     {
