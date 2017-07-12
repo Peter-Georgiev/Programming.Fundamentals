@@ -9,72 +9,164 @@ class UserDatabase
     {
         var database = new Dictionary<string, string>();
 
-        ReadLineandInsertDatabase(database);
-    }
+        string userFile = "user.txt";
+        ReadUserFile(database, userFile);
 
-    private static void ReadLineandInsertDatabase(Dictionary<string, string> database)
-    {
-        while (true)
+        bool isExit = true;
+        while (isExit)
         {
             string[] tokens = ReadLine();
-            string command = tokens[0];
+            string command = tokens[0].ToLower();
 
-            if (command.Equals("exit"))
+            if (command.ToLower().Equals("exit"))
             {
                 break;
             }
 
-            if (command.Equals("register"))
+            RegisterUser(database, tokens);
+
+            LoginAndLogout(database, tokens, ref isExit);
+
+            NoUserDatabase(database, tokens);
+        }
+
+        WriteDatabaseFile(database, userFile);
+    }
+
+    private static void ReadUserFile(Dictionary<string, string> database, string userFile)
+    {
+        if (File.Exists(userFile))
+        {
+            string[] tokens = File.ReadAllText(userFile)
+                .Split(new[] { '\'', '\t', '\r', '\n' },
+                StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+
+            if (tokens.Length > 0 && tokens.Length % 2 == 0)
             {
-                string userName = tokens[1];
-
-                if (!database.ContainsKey(userName))
+                for (int i = 0; i < tokens.Length - 1; i++)
                 {
-                    database.Add(userName, String.Empty);
-
-                    bool isPassword = true;
-                    while (isPassword)
+                    if (i % 2 == 0)
                     {
-                        if (tokens[2] == tokens[3])
+                        if (!database.ContainsKey(tokens[i]))
                         {
-                            database[userName] = tokens[2];
-                            isPassword = false;
+                            database.Add(tokens[i], tokens[i + 1]);
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+
+    private static void WriteDatabaseFile(Dictionary<string, string> database, string userFile)
+    {
+        if (File.Exists(userFile))
+        {
+            File.Delete(userFile);
+        }
+
+        foreach (var kvp in database)
+        {
+            string userPass = $"'{kvp.Key}'\t'{kvp.Value}'" + Environment.NewLine;
+            File.AppendAllText(userFile, userPass);
+        }
+    }
+
+    private static void NoUserDatabase(Dictionary<string, string> database, string[] tokens)
+    {
+        string command = tokens[0].ToLower();
+        if (database == null)
+        {
+            Console.WriteLine("There is no currently logged in user.");
+        }        
+    }
+
+    private static void LoginAndLogout(Dictionary<string, string> database, string[] tokens, ref bool isExit)
+    {
+        string command = tokens[0].ToLower();
+        bool hasLogin = command.ToLower().Equals("login") && database != null;
+
+        if (hasLogin)
+        {
+            string userName = tokens[1];
+            string password = tokens[2];
+
+            bool hasUserName = false;
+            bool hasUserPass = false;
+
+            if (database.ContainsKey(userName))
+            {
+                hasUserName = true;
+                foreach (var kvp in database)
+                {
+                    if (kvp.Key == userName)
+                    {
+                        if (kvp.Value == password)
+                        {
+                            hasUserPass = true;
+                            break;
                         }
                         else
                         {
-                            Console.WriteLine("The two passwords must match.");
+                            Console.WriteLine("The password you entered is incorrect.");
+                            break;
                         }
-
-                        tokens = ReadLine();
-                        command = tokens[0];
                     }
                 }
-                else
-                {
-                    Console.WriteLine("The given username already exists.");
-                }
+            }
+            else
+            {
+                Console.WriteLine("There is no user with the given username.");
             }
 
-            bool login = command.Equals("login");
-
-            while (login)
+            while (hasUserName && hasUserPass)
             {
+                bool hasExitOrLogout =
+                    command.ToLower().Equals("logout") || command.ToLower().Equals("exit");
 
-
-
-
-
-
-
-
-                if (command.Equals("logout"))
+                if (command.ToLower().Equals("exit"))
                 {
-                    login = false;
+                    isExit = false;
+                }
+
+                if (hasExitOrLogout)
+                {                   
                     break;
                 }
 
                 tokens = ReadLine();
                 command = tokens[0];
+            }
+        }
+        else if (command.ToLower().Equals("logout"))
+        {
+            Console.WriteLine("There is no currently logged in user.");
+        }
+    }
+
+    private static void RegisterUser(Dictionary<string, string> database, string[] tokens)
+    {
+        string command = tokens[0].ToLower();
+
+        if (command.ToLower().Equals("register") && tokens.Length > 3)
+        {
+            string userName = tokens[1];
+
+            if (!database.ContainsKey(userName))
+            {
+                if (tokens[2] == tokens[3])
+                {
+                    database.Add(userName, String.Empty);
+                    database[userName] = tokens[2];
+                }
+                else
+                {
+                    Console.WriteLine("The two passwords must match.");                    
+                }
+            }
+            else
+            {
+                Console.WriteLine("The given username already exists.");
             }
         }
     }

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.HTMLcontents", "02.HTMLc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.UserDatabase", "03.UserDatabase\03.UserDatabase.csproj", "{FD774070-11AC-4257-82F1-1E0AE9E71CA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.Re-Directory", "04.Re-Directory\04.Re-Directory.csproj", "{79E8B41E-92F1-4C45-B67E-F9FD077C3C12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.Products", "05.Products\05.Products.csproj", "{92A2AF50-05D4-41F8-AB9F-0E8166F54E94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{FD774070-11AC-4257-82F1-1E0AE9E71CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD774070-11AC-4257-82F1-1E0AE9E71CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD774070-11AC-4257-82F1-1E0AE9E71CA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E8B41E-92F1-4C45-B67E-F9FD077C3C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E8B41E-92F1-4C45-B67E-F9FD077C3C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E8B41E-92F1-4C45-B67E-F9FD077C3C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E8B41E-92F1-4C45-B67E-F9FD077C3C12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A2AF50-05D4-41F8-AB9F-0E8166F54E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A2AF50-05D4-41F8-AB9F-0E8166F54E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A2AF50-05D4-41F8-AB9F-0E8166F54E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A2AF50-05D4-41F8-AB9F-0E8166F54E94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
