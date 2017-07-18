@@ -24,15 +24,15 @@ class CottageScraper
 
         double average = Math.Round(dictionary.SelectMany(x => x.Value).ToList().Average(), 2);
 
-        double usedLongs = average * dictionary
+        double usedLongs = Math.Round(average * dictionary
             .Where(x => x.Key.Equals(typeTree))
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
             .ToList()
             .Where(x => x >= lenghtTree)
-            .Sum();
+            .Sum(), 2);
 
-        double unusedLogs = (dictionary
+        double unusedLogs = Math.Round((dictionary
             .Where(x => x.Key.Equals(typeTree))
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
@@ -43,12 +43,14 @@ class CottageScraper
             .ToDictionary(x => x.Key, x => x.Value)
             .SelectMany(x => x.Value)
             .ToList()
-            .Sum()) * average * 0.25d;
+            .Sum()) * average * 0.25d, 2);
+
+        double totalPrice = Math.Round(usedLongs + unusedLogs, 2);
 
         result[0] = $"Price per meter: ${average:F2}";
         result[1] = $"Used logs price: ${usedLongs:F2}";
         result[2] = $"Unused logs price: ${unusedLogs:F2}";
-        result[3] = $"CottageScraper subtotal: ${usedLongs + unusedLogs:F2}";
+        result[3] = $"CottageScraper subtotal: ${totalPrice:F2}";
 
         return result;
     }
@@ -106,3 +108,54 @@ class CottageScraper
         }
     }
 }
+
+
+// ------------------------ Втори вариант----------------------------//
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+
+//class CottageScraper
+//{
+//    static void Main()
+//    {
+//        var data = new List<KeyValuePair<string, int>>();
+
+//        string input = Console.ReadLine();
+
+//        while (input != "chop chop")
+//        {
+//            string[] inputTokens = input
+//                .Split(new string[] { " -> " }, StringSplitOptions.RemoveEmptyEntries)
+//                .ToArray();
+//            string woodType = inputTokens[0];
+//            int woodHeight = int.Parse(inputTokens[1]);
+
+//            data.Add(new KeyValuePair<string, int>(woodType, woodHeight));
+
+//            input = Console.ReadLine();
+//        }
+
+//        string wantedType = Console.ReadLine();
+//        int minHeight = int.Parse(Console.ReadLine());
+
+//        var pricePerMeter = Math.Round(data.Average(d => d.Value), 2);
+
+//        double usedLogsVAlue = data
+//            .Where(d => d.Key == wantedType && d.Value >= minHeight)
+//            .Sum(d => d.Value);
+
+//        double unusedLogsValue = data
+//            .Where(d => d.Key != wantedType || d.Value < minHeight)
+//            .Sum(d => d.Value);
+
+//        usedLogsVAlue = Math.Round(usedLogsVAlue * pricePerMeter, 2);
+//        unusedLogsValue = Math.Round(unusedLogsValue * pricePerMeter * 0.25, 2);
+//        double totalPrice = Math.Round(usedLogsVAlue + unusedLogsValue, 2);
+
+//        Console.WriteLine($"Price per meter: ${pricePerMeter:F2}");
+//        Console.WriteLine($"Used logs price: ${usedLogsVAlue:F2}");
+//        Console.WriteLine($"Unused logs price: ${unusedLogsValue:F2}");
+//        Console.WriteLine($"CottageScraper subtotal: ${totalPrice:F2}");
+//    }
+//}
