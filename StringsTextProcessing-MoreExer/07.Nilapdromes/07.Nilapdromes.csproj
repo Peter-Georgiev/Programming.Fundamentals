@@ -7,7 +7,7 @@
     <ProjectGuid>{3DF8855F-D2BE-4A43-90C7-6CED27207E58}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>_07.Nilapdromes</RootNamespace>
-    <AssemblyName>_07.Nilapdromes</AssemblyName>
+    <AssemblyName>07.Nilapdromes</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,11 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Nilapdromes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
