@@ -6,14 +6,17 @@ class MatchPhoneNumber
 {
     static void Main()
     {
-        //string regex = @"";
-        string text = "12.02.2017";
+        string regex = @"(\+[359]+\s[2]\s\d{3}(\s|-)\d{4})|(\+[359]+-[2]-\d{3}-\d{4})\b";
 
-        string pattern = @"([0-9]{2})";
+        string phones = Console.ReadLine();
 
-        //Regex regex = new Regex(pattern);
+        MatchCollection phoneMatches = Regex.Matches(phones, regex);
 
-        bool isr = Regex.IsMatch(text, pattern);
-        Console.WriteLine();
+        string[] matchedPhones = phoneMatches
+            .Cast<Match>()
+            .Select(a => a.Value.Trim())
+            .ToArray();
+
+        Console.WriteLine(string.Join(", ", matchedPhones));
     }
 }
