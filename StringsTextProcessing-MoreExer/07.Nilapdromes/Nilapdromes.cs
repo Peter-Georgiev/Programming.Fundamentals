@@ -1,57 +1,85 @@
 ﻿using System;
+using System.Collections.Generic;
 
 class Nilapdromes
 {
     static void Main()
     {
-        string input = Console.ReadLine();
+        List<string> input = new List<string>();
 
-        while (input != "end")
+        ReadLine(input);
+
+        FindNilapdromes(input);
+    }
+
+    static void FindNilapdromes(List<string> input)
+    {
+        for (int i = 0; i < input.Count; i++)
         {
-            var borderFirst = input.Substring(0, input.Length / 2);
-            var borderSecond = string.Empty;
-            var border = string.Empty;
+            string borderLeft = input[i].Substring(0, input[i].Length / 2);
+            string borderRight = String.Empty;
 
-            if (input.Length % 2 == 0)
+            if (input[i].Length % 2 == 0)
             {
-                borderSecond = input.Substring(borderFirst.Length, input.Length - borderFirst.Length);
+                borderRight = input[i].Substring(
+                    borderLeft.Length, input[i].Length - borderLeft.Length);
             }
             else
             {
-                borderSecond = input.Substring(borderFirst.Length + 1, input.Length - borderFirst.Length - 1);
+                borderRight = input[i].Substring(
+                    borderLeft.Length + 1, input[i].Length - borderLeft.Length - 1);
             }
+
+            string border = String.Empty;
 
             while (true)
             {
-                if (borderFirst == borderSecond)
+                if (borderLeft == borderRight)
                 {
-                    border = borderFirst;
+                    border = borderLeft;
                     break;
                 }
-                else if (borderFirst != borderSecond)
+                else
                 {
-                    borderFirst = borderFirst.Substring(0, borderFirst.Length - 1);
-                    borderSecond = borderSecond.Substring(1, borderSecond.Length - 1);
-                }
-
-                if (borderFirst.Length == 0 && borderSecond.Length == 0)
-                {
-                    break;
+                    borderLeft = borderLeft.Substring(0, borderLeft.Length - 1);
+                    borderRight = borderRight.Substring(1, borderRight.Length - 1);
                 }
             }
 
-            if (border.Length != 0)
+            if (!border.Equals(String.Empty))
             {
-                string core = input.Remove(input.Length - border.Length, border.Length).Trim();
-                core = core.Remove(0, border.Length).Trim();
-                if (core != "")
-                {
-                    string nilapdromes = core + border + core;
-                    Console.WriteLine(nilapdromes);
-                }
+                string core = input[i]
+                    .Remove(input[i].Length - border.Length, border.Length)
+                    .Remove(0, border.Length)
+                    .Trim();
+
+                PrintNalapdromes(border, core);
+            }
+        }
+    }
+
+    static void PrintNalapdromes(string border, string core)
+    {
+        if (!core.Equals(String.Empty))
+        {
+            string nilapdrome = core + border + core;
+
+            Console.WriteLine(nilapdrome);
+        }
+    }
+
+    static void ReadLine(List<string> input)
+    {
+        while (true)
+        {
+            string readLine = Console.ReadLine();
+
+            if (readLine.Equals("end"))
+            {
+                break;
             }
 
-            input = Console.ReadLine();
+            input.Add(readLine.Trim());
         }
     }
 }
