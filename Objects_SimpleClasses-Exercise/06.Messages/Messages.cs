@@ -6,7 +6,13 @@ class User
 {
     public string Username { get; set; }
 
-    public List<Message> ReceivedMessages { get; set; }
+    public List<Message> Messages { get; set; }
+    
+    public User(string username) //Конструкрот
+    {   //this - за яснота
+        this.Username = username;
+        this.Messages = new List<Message>();
+    }
 }
 
 class Message
@@ -14,99 +20,96 @@ class Message
     public string Content { get; set; }
 
     public User Sender { get; set; }
+
+    public Message(string content, User sender)
+    {
+        this.Content = content;
+        this.Sender = sender;
+    }
 }
 
 class Messages
 {
     static void Main()
     {
-        var messages = new Dictionary<string, User>();
+        var user = new Dictionary<string, User>();
+        string sender = String.Empty;
+        string recipient = String.Empty;
 
-        ReadMessages(messages);
+        string input = Console.ReadLine();
+        while (!input.Equals("exit"))
+        {
+            string[] inputTokens = input.Split(' ');
+            
+            if (inputTokens[0].Equals("register"))
+            {
+                string username = inputTokens[1];
+                user.Add(username, new User(username));
+            }
+            else
+            {
+                sender = inputTokens[0];
+                recipient = inputTokens[2];
+                string content = inputTokens[3];
 
-        PrintMessage(messages);
-    }
+                if (user.ContainsKey(sender) && user.ContainsKey(recipient))
+                {
+                    User senderUser = user[sender];
+                    user[recipient].Messages.Add(new Message(content, senderUser));
+                }
+            }
 
-    private static void PrintMessage(Dictionary<string, User> messages)
-    {
-        string[] tokens = Console.ReadLine()
-            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+            input = Console.ReadLine();
+        }
+
+        string[] chatTokens = Console.ReadLine().Split(' ');
+        sender = chatTokens[0];
+        recipient = chatTokens[1];
+
+        Message[] senderMessages = user[recipient].Messages
+            .Where(m => m.Sender.Username.Equals(sender))
             .ToArray();
 
-        string firstUser = tokens[0];
-        string secondUser = tokens[1];
+        Message[] recipientMessages = user[sender].Messages
+            .Where(m => m.Sender.Username.Equals(recipient))
+            .ToArray();
 
-        //messages
-        //    .Where(x => x.Key == secondUser)
-        //    .ToList()
-        //    .ForEach()
-
-        foreach (var kvp in messages)
+        if (senderMessages.Length == 0 && recipientMessages.Length == 0)
         {
-            if (kvp.Value.Username == firstUser)
-            {
-                    Console.Write($"{kvp.Value.Username}: ");
-                foreach (var received in kvp.Value.ReceivedMessages)
-                {
-                    Console.WriteLine($"{received.Content} :{received.Sender}");
-                }
-            }
+            Console.WriteLine("No messages");
         }
-        
 
+        int index = 0;
+        while (index < senderMessages.Length && index < recipientMessages.Length)
+        {
+            PrintSender(sender, senderMessages, index);
+            PrintReceipient(recipient, recipientMessages, index);
+
+            index++;
+        }
+
+        while (index < senderMessages.Length)
+        {
+            PrintSender(sender, senderMessages, index);
+
+            index++;
+        }
+
+        while (index < recipientMessages.Length)
+        {
+            PrintReceipient(recipient, recipientMessages, index);
+
+            index++;
+        }
     }
 
-    private static void ReadMessages(Dictionary<string, User> messages)
+    private static void PrintReceipient(string recipient, Message[] recipientMessages, int index)
     {
-        while (true)
-        {
-            string readLine = Console.ReadLine();
+        Console.WriteLine($"{recipientMessages[index].Content} :{recipient}");
+    }
 
-            if (readLine.Equals("exit"))
-            {
-                break;
-            }
-
-            string[] tokens = readLine
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
-
-            string senderUsername = tokens[0];
-            string register = tokens[0];
-            string username = tokens[1];
-
-            if (register.Equals("register"))
-            {
-                if (!messages.ContainsKey(username))
-                {
-                    messages.Add(username, new User());
-                }
-            }
-            else if (tokens.Length < 2)
-            {
-            }
-            else if (messages.ContainsKey(tokens[2]))
-            {
-                string send = tokens[1];
-                string recipientUsername = tokens[2];
-                string content = tokens[3];
-
-                foreach (var kvp in messages)
-                {
-                    if (kvp.Key == recipientUsername)
-                    {
-                        foreach (var item in kvp.Value.Username)
-                        {
-                            kvp.Value.Username = recipientUsername;
-                        }
-                        foreach (var item in kvp.Value.ReceivedMessages)
-                        {
-                            item.Content = content;
-                            item.Sender.Username = senderUsername;
-                        }
-                    }                  
-                }
-            }            
-        }        
+    private static void PrintSender(string sender, Message[] senderMessages, int index)
+    {
+        Console.WriteLine($"{sender}: {senderMessages[index].Content}");
     }
 }
