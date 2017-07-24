@@ -5,8 +5,6 @@ using System.Text.RegularExpressions;
 
 class GitHub
 {
-    public string Username { get; set; }
-    public string RepositoryName { get; set; }
     public string CommitHash { get; set; }
     public string Message { get; set; }
     public int Addition { get; set; }
@@ -35,12 +33,12 @@ class Commits
 
     private static void AddedCommits(Dictionary<string, Dictionary<string, List<GitHub>>> github, string readLine)
     {
-        string pattern = @"^(?:https:)(\/)(?:\1github.com)\1(?<user>[\w-]+)\1(?<repo>[A-Za-z-_]+)\1(?:commit)\1(?<hash>[A-Fa-f\d]{40}),(?<message>.+),(?<additions>[\d]+),(?<deletions>[\d]+)$";
+        string pattern = @"(?:https:)(\/)(?:\1github.com)\1(?<user>[A-Z-a-z0-9_]+)\1(?<repo>[A-Za-z-_]+)\1(?:commit)\1(?<hash>[a-f\d]{40}),(?<message>.*),(?<additions>[\d]+),(?<deletions>[\d]+)";
 
         Match regexInput = Regex.Match(readLine, pattern);
 
         string message = regexInput.Groups["message"].Value;
-        bool hasNewLineInMessage = message.Contains("\\n");
+        bool hasNewLineInMessage = message.Contains("\\n") || message.Contains("\\r");
 
         if (regexInput.Length > 0 && !hasNewLineInMessage)
         {
@@ -59,10 +57,8 @@ class Commits
 
             GitHub newGitHub = new GitHub()
             {
-                Username = user,
-                RepositoryName = repo,
-                CommitHash = regexInput.Groups["hash"].Value,
                 Message = message,
+                CommitHash = regexInput.Groups["hash"].Value,
                 Addition = int.Parse(regexInput.Groups["additions"].Value),
                 Deletions = int.Parse(regexInput.Groups["deletions"].Value)
             };
@@ -81,35 +77,28 @@ class Commits
         {
             Console.WriteLine(kvpName.Key + ":");
 
-            var repos = kvpName.Value
+            var sorterdRepos = kvpName.Value
                 .OrderBy(x => x.Key)
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            int totalAdditionsCount = 0;
-            int totalDeletionsCount = 0;
-
-            foreach (var kvpRepo in repos)
+            foreach (var kvpRepo in sorterdRepos)
             {
                 Console.WriteLine("  " + kvpRepo.Key + ":");
 
-                foreach (var kvp in kvpRepo.Value)
+                foreach (GitHub kvp in kvpRepo.Value)
                 {
-                    Console.WriteLine($"    commit {kvp.CommitHash}: {kvp.Message} ({kvp.Addition} additions, {kvp.Deletions} deletions)");
+                    Console.WriteLine($"    commit {kvp.CommitHash}: {kvp.Message} " +
+                        $"({kvp.Addition} additions, {kvp.Deletions} deletions)");
                 }
 
-                totalAdditionsCount = kvpRepo.Value
-                    .Select(x => x.Addition)
-                    .ToList()
-                    .Sum();
-                totalDeletionsCount = kvpRepo.Value
-                    .Select(x => x.Deletions)
-                    .ToList()
-                    .Sum();
+                int totalAdditionsCount = kvpRepo.Value
+                    .Sum(x => x.Addition);
+                int totalDeletionsCount = kvpRepo.Value
+                    .Sum(x => x.Deletions);
 
+                Console.WriteLine($"    Total: {totalAdditionsCount} additions, " +
+                    $"{totalDeletionsCount} deletions");
             }
-
-            Console.WriteLine($"    Total: {totalAdditionsCount} additions, " +
-                $"{totalDeletionsCount} deletions");
         }
     }
 }
