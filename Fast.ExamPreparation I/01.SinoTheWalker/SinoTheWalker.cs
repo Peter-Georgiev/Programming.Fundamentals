@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 class SinoTheWalker
 {
     static void Main()
     {
-        int[] time = Console.ReadLine() //HH:mm:ss
+        int[] timesTokens = Console.ReadLine()
             .Split(':')
             .Select(int.Parse)
             .ToArray();
 
-        long secondsTime = (60 * 60 * time[0]) + (60 * time[1]) + time[2];
+        int stepsHome = int.Parse(Console.ReadLine());
+        int secondsForEachStep = int.Parse(Console.ReadLine());
 
-        long secondsToAdd =
-            (long)int.Parse(Console.ReadLine()) *
-            (long)int.Parse(Console.ReadLine());
+        int timeSeconds = (timesTokens[0] * 60 * 60) + (timesTokens[1] * 60) + timesTokens[2];  
+        long secondsToStep = (long)stepsHome * (long)secondsForEachStep + timeSeconds;
 
-        secondsTime = secondsTime + secondsToAdd;
+        long second = secondsToStep % 60;
+        long min = (secondsToStep / 60) % 60;
+        long hour = (secondsToStep / 60 / 60) % 24;
 
-        long second = secondsTime % 60;
-        long min = 
-
-
+        Console.WriteLine($"Time Arrival: {hour:D2}:{min:D2}:{second:D2}");
     }
 }

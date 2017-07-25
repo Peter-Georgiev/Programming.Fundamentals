@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2FA98279-C926-4C89-92AA-C33D14D5F7E2}</ProjectGuid>
+    <ProjectGuid>{CAE10448-CEF5-4627-86AC-BCEE84262F09}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_01.SinoTheWalker</RootNamespace>
-    <AssemblyName>01.SinoTheWalker</AssemblyName>
+    <RootNamespace>_02.SoftUniKaraoke</RootNamespace>
+    <AssemblyName>02.SoftUniKaraoke</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SinoTheWalker.cs" />
+    <Compile Include="SoftUniKaraoke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
