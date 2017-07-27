@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 class WinningTicket
 {
     static void Main()
     {
-        string[] tikets = Regex.Split(Console.ReadLine(), @"\s+,\s+")
+        string[] tikets = Regex.Split(Console.ReadLine(), @",\s+")
             .Where(x => x.Length > 0)
             .Select(x => x.Trim())
             .ToArray();
 
         foreach (var tiket in tikets)
         {
-            if (tiket.Length < 12 || tiket.Length > 20)
+            if (tiket.Length != 20)
             {
                 Console.WriteLine("invalid ticket");
             }
@@ -25,63 +24,60 @@ class WinningTicket
 
                 string leftSymbol = CheckMatchSymbol(leftTiket);
                 string rightSymbol = CheckMatchSymbol(rightTiket);
-
-                char[] symbols = new char[] { '@', '#', '$', '^' };
-
-                bool hasLengthEquals = leftSymbol.Length == rightSymbol.Length;
-                bool hasSymbolEquals = leftSymbol[0] == rightSymbol[0];
-                bool hasContains = 
-                    symbols.Contains(leftSymbol[0]) && symbols.Contains(rightSymbol[0]);
                 
-                if (hasLengthEquals && hasSymbolEquals && hasContains)
+                if (!leftSymbol.Equals(String.Empty) && !rightSymbol.Equals(String.Empty))
                 {
-                    if (leftSymbol.Length >= 6 && leftSymbol.Length <= 9)
+                    bool hasLengthEquals = leftSymbol.Length >= 6 && rightSymbol.Length >= 6;
+                    bool hasSymbolEquals = leftSymbol[0]  == rightSymbol[0];
+                    string symbols = "@#$^";
+
+                    if (hasLengthEquals && hasSymbolEquals && symbols.Contains(leftSymbol[0]))
                     {
-                        Console.WriteLine($"tiket \"{tiket}\" - {leftSymbol.Length}" +
-                            $"{leftSymbol[0]} no match");
+                        int count = Math.Min(leftSymbol.Length, rightSymbol.Length);
+                        if (count == 10)
+                        {
+                            Console.WriteLine($"ticket \"{tiket}\" - " +
+                                $"{count}{leftSymbol[0]} Jackpot!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"ticket \"{tiket}\" - {count}{leftSymbol[0]}");
+
+                        }
                     }
-                    else if (leftSymbol.Length == 10)
+                    else
                     {
-                        Console.WriteLine($"tiket \"{tiket}\" - {leftSymbol.Length}" +
-                            $"{leftSymbol[0]} Jackpot!");
+                        Console.WriteLine($"ticket \"{tiket}\" - no match");
                     }
-                } 
-                
+                }
+                else
+                {
+                    Console.WriteLine($"ticket \"{tiket}\" - no match");
+                }                
             }
         }
     }
 
-    static string CheckMatchSymbol(string halfTiket)
+    static string CheckMatchSymbol(string s)
     {
-        int count = 1;
+        int max = 1;
         string symbol = String.Empty;
 
-        for (int i = 0; i < halfTiket.Length - 1; i++)
+        for (int i = 0; i < s.Length - 1; i++)
         {
-            if (halfTiket[i] == halfTiket[i + 1])
+            char ch = s[i];
+            int count = 1;
+            while (i + count < s.Length && s[i + count] == s[i])
             {
-                symbol += halfTiket[i];
                 count++;
-                if (i == halfTiket.Length - 2)
+                if (count > max)
                 {
-                    symbol += halfTiket[i];
+                    max = count;
+                    symbol = s.Substring(i, count);
                 }
             }
-            else if (count < 6)
-            {
-                symbol = String.Empty;
-                count = 1;
-            }
-            else if (count > 6 && halfTiket.Length - count > count)
-            {
-                symbol = String.Empty;
-                count = 1;
-            }
-            else if (count > 6 && halfTiket.Length - count < count)
-            {
-                break;
-            }
         }
+
         return symbol;
     }
 }
