@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4339F01A-9ACF-41E0-BF83-92FDFB39B182}</ProjectGuid>
+    <ProjectGuid>{1EECD97C-43AA-4B44-9B55-3DE9C0AE92F7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>_01.CharityMarathon</RootNamespace>
-    <AssemblyName>01.CharityMarathon</AssemblyName>
+    <RootNamespace>_02.Ladybugs</RootNamespace>
+    <AssemblyName>02.Ladybugs</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharityMarathon.cs" />
+    <Compile Include="Ladybugs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
