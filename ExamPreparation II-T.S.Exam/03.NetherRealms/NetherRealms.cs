@@ -16,13 +16,16 @@ class NetherRealms
     {
         List<Demon> demons = new List<Demon>();
 
-        string[] tokens = Regex.Split(Console.ReadLine(), @",\s+")
+        string[] tokens = Console.ReadLine()
+            .Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim())
             .ToArray();
 
         for (int i = 0; i < tokens.Length; i++)
         {
-            MatchCollection regex = Regex.Matches(tokens[i], @"(?<number>-\d.\d|\d.\d|\d)|(?<characters>[^*+-\/])|(?<arithmetic>.)");
+            MatchCollection regex = 
+                Regex.Matches(tokens[i],
+                @"(?<number>-?\d+(?:\.\d+)?)|(?<characters>[^*+-\/\.])|(?<arithmetic>[*\/])");
 
             int healt = 0;
             double damage = 0.00d;
@@ -30,24 +33,19 @@ class NetherRealms
 
             foreach (Match item in regex)
             {
-                if (item.Groups["characters"].Value != String.Empty)
+                if (item.Groups["characters"].Value.Trim() != String.Empty)
                 {
-                    healt += char.Parse(item.Groups["characters"].Value);
+                    healt += char.Parse(item.Groups["characters"].Value.Trim());
                 }
 
-                if (double.TryParse(item.Groups["number"].Value, out double d))
+                if (item.Groups["number"].Value != String.Empty)
                 {
-                    damage += d;
+                    damage += double.Parse(item.Groups["number"].Value);
                 }
-                else if (int.TryParse(item.Groups["number"].Value, out int n))
-                {
-                    damage += n;
-                }
-
 
                 if (item.Groups["arithmetic"].Value != String.Empty)
                 {
-                    char[] ch = new char[] { '*', '+', '-', '/' };
+                    char[] ch = new char[] { '*', '/' };
                     if (ch.Contains(char.Parse(item.Groups["arithmetic"].Value)))
                     {
                         arithmetic.Add(char.Parse(item.Groups["arithmetic"].Value));
@@ -60,10 +58,10 @@ class NetherRealms
                 switch (calc)
                 {
                     case '*':
-                        damage *= 2.00;
+                        damage *= 2;
                         break;
                     case '/':
-                        damage /= 2.00;
+                        damage /= 2;
                         break;
                 }
             }

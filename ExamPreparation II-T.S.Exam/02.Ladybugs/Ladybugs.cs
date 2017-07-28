@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 class Ladybugs
 {
     static void Main()
     {
         int[] sizeFilds = new int[int.Parse(Console.ReadLine())];
-        int[] indexes = Regex.Split(Console.ReadLine(), @"\s+")
+        int[] indexes = Console.ReadLine()
+            .Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim())
             .Select(int.Parse)
             .Where(x => x >= 0 && x <= sizeFilds.Length - 1)
@@ -26,7 +26,8 @@ class Ladybugs
                 break;
             }
 
-            string[] tokens = Regex.Split(command, @"\s+")
+            string[] tokens = command
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
                 .ToArray();
 
@@ -34,67 +35,48 @@ class Ladybugs
             string direction = tokens[1];
             int flyLength = int.Parse(tokens[2]);
 
-            switch (direction)
+            if (ladybugIndex < 0 || ladybugIndex >= sizeFilds.Length)
             {
-                case "right":
-                    GetCommandRight(sizeFilds, ladybugIndex, flyLength);
+                continue;
+            }
+
+            if (sizeFilds[ladybugIndex] == 0)
+            {
+                continue;
+            }
+
+            sizeFilds[ladybugIndex] = 0;
+
+            var position = ladybugIndex;
+
+            while (true)
+            {
+                if (direction == "right")
+                {
+                    position += flyLength;
+                }
+                else
+                {
+                    position -= flyLength;
+                }
+
+                if (position < 0 || position >= sizeFilds.Length)
+                {
                     break;
-                case "left":
-                    GetCommandLeft(sizeFilds, ladybugIndex, flyLength);
+                }
+
+                if (sizeFilds[position] == 1)
+                {
+                    continue;
+                }
+                else
+                {
+                    sizeFilds[position] = 1;
                     break;
+                }
             }
         }
 
         Console.WriteLine(String.Join(" ", sizeFilds));
-    }
-
-    static void GetCommandLeft(int[] sizeFilds, int ladybugIndex, int flyLength)
-    {
-        int flyCount = flyLength;
-        int i = sizeFilds.Length - 1;
-        while (i >= 0)
-        {
-            if (i == ladybugIndex)
-            {
-                sizeFilds[i] = 0;
-                break;
-            }
-
-            if (i == Math.Abs(ladybugIndex - flyCount) && sizeFilds[i] != 1)
-            {
-                sizeFilds[i] = 1;
-            }
-            else if (i == Math.Abs(ladybugIndex - flyCount))
-            {
-                flyCount = Math.Abs(i - flyLength);
-            }
-
-            i--;
-        }
-    }
-
-    static void GetCommandRight(int[] sizeFilds, int ladybugIndex, int flyLength)
-    {
-        int flyCount = flyLength;
-        int i = 0;
-        while (i <= sizeFilds.Length - 1)
-        {
-            if (i == ladybugIndex)
-            {
-                sizeFilds[i] = 0;                
-            }
-
-            if (i == ladybugIndex + flyCount && sizeFilds[i] != 1)
-            {
-                sizeFilds[i] = 1;
-                break;
-            }
-            else if (i == ladybugIndex + flyCount)
-            {
-                flyCount = i + flyLength;
-            }
-
-            i++;
-        }    
     }
 }
