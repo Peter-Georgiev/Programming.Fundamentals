@@ -23,7 +23,7 @@ class CapitalizeWords
         }
     }
 
-    private static void ReadLineAndCapitalizeWords(List<string> sentences, string readLine)
+    static void ReadLineAndCapitalizeWords(List<string> sentences, string readLine)
     {
         string[] tokens = readLine
             .Split(new char[] { ' ' },
