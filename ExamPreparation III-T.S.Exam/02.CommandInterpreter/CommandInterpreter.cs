@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 class CommandInterpreter
 {
@@ -10,7 +9,9 @@ class CommandInterpreter
         List<string> input = Console.ReadLine()
             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
-        string[] result = new string[input.Count];
+
+        List<string> result = new List<string>();
+
         while (true)
         {
             string command = Console.ReadLine();
@@ -19,111 +20,168 @@ class CommandInterpreter
                 break;
             }
 
-            Match regex = Regex.Match(command, @"(?<1>reverse(?:\s+from\s+-?\d+\s+count\s+-?\d+))|(?<2>sort(?:\s+from\s+-?\d+\s+count\s+-?\d+))|(?<3>rollLeft(?:\s+-?\d+\s+times))|(?<4>rollRight(?:\s+-?\d+\s+times))");
+            string[] tokens = command
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+            
+            result.Clear();
 
-            if (!regex.Success)
+            if (tokens[0].Equals("reverse"))
             {
-                continue;
+                GetRevers(tokens, input, result);
             }
-
-            string[] tokens = new string[0];
-            for (int i = 0; i < regex.Groups.Count; i++)
+            else if (tokens[0].Equals("sort"))
             {
-                if (regex.Groups[$"{i}"].Length > 0)
-                {
-                    tokens = tokens = regex.Groups[$"{i}"].Value.ToLower()
-                        .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                        .ToArray();
-                }
+                GetSorted(tokens, input, result);
             }
-
-            if (tokens[0] == "reverse")
+            else if (tokens[0].Equals("rollLeft"))
             {
-                int fromStart = int.Parse(tokens[2]);
-                int count = int.Parse(tokens[4]);
-
-                if ((fromStart < 0 || fromStart >= input.Count) ||
-                    (fromStart + count < 0 || fromStart + count >= input.Count))
-                {
-                    Console.WriteLine("Invalid input parameters.");
-                    continue;
-                }
-
-                var tempRevers = input
-                    .Skip(fromStart)
-                    .Take(count)
-                    .Reverse()
-                    .ToList();
-
-                input.RemoveRange(fromStart, count);
-                input.InsertRange(fromStart, tempRevers);
-
-                for (int i = 0; i < input.Count; i++)
-                {
-                    result[i] = input[i];
-                }
+                GetRollLeft(tokens, input, result);
             }
-            else if (tokens[0] == "sort")
+            else if (tokens[0].Equals("rollRight"))
             {
-                int fromStart = int.Parse(tokens[2]);
-                int count = int.Parse(tokens[4]);
-
-                if ((fromStart < 0 || fromStart >= input.Count) ||
-                    (fromStart + count < 0 || fromStart + count >= input.Count))
-                {
-                    Console.WriteLine("Invalid input parameters.");
-                    continue;
-                }
-
-                var tempSorted = input
-                   .Skip(fromStart)
-                   .Take(count)
-                   .OrderBy(x => x)
-                   .ToList();
-
-                input.RemoveRange(fromStart, count);
-                input.InsertRange(fromStart, tempSorted);
-                for (int i = 0; i < input.Count; i++)
-                {
-                    result[i] = input[i];
-                }
+                GetRollRight(tokens, input, result);
             }
-            else if (tokens[0] == "rollleft")
-            {
-                int count = int.Parse(tokens[1]);
-
-                for (int oldIndex = 0; oldIndex < input.Count; oldIndex++)
-                {
-                    int newIndex = oldIndex + (-count);
-                    newIndex = newIndex % input.Count;
-
-                    if (newIndex < 0)
-                    {
-                        newIndex += input.Count;
-                    }
-
-                    result[newIndex] = input[oldIndex];
-                }
-            }
-            else if (tokens[0] == "rollright")
-            {
-                int count = int.Parse(tokens[1]);
-                
-                for (int oldIndex = 0; oldIndex < input.Count; oldIndex++)
-                {
-                    int newIndex = oldIndex + count;
-                    newIndex = newIndex % input.Count;
-
-                    if (newIndex < 0)
-                    {
-                        newIndex += input.Count;
-                    }
-
-                    result[newIndex] = input[oldIndex];
-                }
-            }
+            input.Clear();
+            input.AddRange(result);
         }
 
         Console.WriteLine("[" + string.Join(", ", result) + "]");
+    }
+
+    static void GetRollRight(string[] tokens, List<string> input, List<string> result)
+    {
+        int count = int.Parse(tokens[1]) % input.Count;
+
+        for (int times = 0; times < count; times++)
+        {
+            string lastEment = input[input.Count - 1];
+
+            for (int i = input.Count - 1; i > 0; i--)
+            {
+                input[i] = input[i - 1];
+
+            }
+
+            input[0] = lastEment;
+        }
+
+        result.AddRange(input);
+    }
+
+    static void GetRollLeft(string[] tokens, List<string> input, List<string> result)
+    {
+        int count = int.Parse(tokens[1]) % input.Count;
+
+        for (int times = 0; times < count; times++)
+        {
+            string firstIndex = input[0];
+
+            for (int i = 0; i < input.Count - 1; i++)
+            {
+                input[i] = input[i + 1];
+            }
+
+            input[input.Count - 1] = firstIndex;
+        }
+
+        result.AddRange(input);
+    }
+
+    static void GetSorted(string[] tokens, List<string> input, List<string> result)
+    {
+        int fromIndex = int.Parse(tokens[2]);
+        int count = int.Parse(tokens[4]);
+
+        if ((fromIndex < 0 || fromIndex >= input.Count) ||
+            (fromIndex + count < 0 || fromIndex + count >= input.Count))
+        {
+            PrindInvalidInput();
+            result.AddRange(input);
+        }
+        else
+        {
+            var tempList = input
+                .Skip(fromIndex)
+                .Take(count)
+                .OrderBy(x => x)
+                .ToList();
+
+            bool isEqualIndex = false;
+            int indexTemp = 0;
+
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (i.Equals(fromIndex))
+                {
+                    isEqualIndex = true;
+                }
+                else if (i.Equals(fromIndex + count))
+                {
+                    isEqualIndex = false;
+                }
+
+                if (isEqualIndex)
+                {
+                    result.Add(tempList[indexTemp]);
+                    indexTemp++;
+                }
+                else
+                {
+                    result.Add(input[i]);
+                }
+            }
+        }
+    }
+
+    static void GetRevers(string[] tokens, List<string> input, List<string> result)
+    {
+        int fromIndex = int.Parse(tokens[2]);
+        int count = int.Parse(tokens[4]);
+
+        if ((fromIndex < 0 || fromIndex >= input.Count) ||
+            (fromIndex + count < 0 || fromIndex + count >= input.Count))
+        {
+            PrindInvalidInput();
+            result.AddRange(input);
+        }
+        else
+        {
+            var tempList = input
+                .Skip(fromIndex)
+                .Take(count)
+                .Reverse()
+                .ToList();
+
+            bool isEqualIndex = false;
+            int indexTemp = 0;
+
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (i.Equals(fromIndex))
+                {
+                    isEqualIndex = true;
+                }
+                else if (i.Equals(fromIndex + count))
+                {
+                    isEqualIndex = false;
+                }
+
+                if (isEqualIndex)
+                {
+                    result.Add(tempList[indexTemp]);
+                    indexTemp++;
+                }
+                else
+                {
+                    result.Add(input[i]);
+                }
+            }
+        }
+    }
+
+    static void PrindInvalidInput()
+    {
+        Console.WriteLine("Invalid input parameters.");
     }
 }
