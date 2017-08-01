@@ -6,12 +6,11 @@ class CommandInterpreter
 {
     static void Main()
     {
-        List<string> input = Console.ReadLine()
+        List<string> array = Console.ReadLine()
+            .Trim()
             .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
-
-        List<string> result = new List<string>();
-
+        
         while (true)
         {
             string command = Console.ReadLine();
@@ -20,166 +19,129 @@ class CommandInterpreter
                 break;
             }
 
-            string[] tokens = command
+            string[] commandParams = command
                 .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 .ToArray();
-            
-            result.Clear();
+            command = commandParams[0];
 
-            if (tokens[0].Equals("reverse"))
+            switch (command)
             {
-                GetRevers(tokens, input, result);
+                case "reverse":
+                    int reverseStart = int.Parse(commandParams[2]);
+                    int reverseCount = int.Parse(commandParams[4]);
+                    
+                    if (IsValid(array, reverseStart, reverseCount))
+                    {
+                        Reverse(array, reverseStart, reverseCount);
+                    }
+                    else
+                    {
+                        PrindInvalidInput();
+                    }
+
+                    break;
+                case "sort":
+                    int sortStart = int.Parse(commandParams[2]);
+                    int sortCount = int.Parse(commandParams[4]);
+
+                    if (IsValid(array, sortStart, sortCount))
+                    {
+                        Sorted(array, sortStart, sortCount);
+                    }
+                    else
+                    {
+                        PrindInvalidInput();
+                    }
+
+                    break;
+                case "rollLeft":
+                    int rollLeftCount = int.Parse(commandParams[1]);
+
+                    if (rollLeftCount >= 0)
+                    {
+                        RollLeft(array, rollLeftCount);
+                    }
+                    else
+                    {
+                        PrindInvalidInput();
+                    }
+
+                    break;
+                case "rollRight":
+                    int rollRightCount = int.Parse(commandParams[1]);
+
+                    if (rollRightCount >= 0)
+                    {
+                        RollRight(array, rollRightCount);
+                    }
+                    else
+                    {
+                        PrindInvalidInput();
+                    }
+
+                    break;
             }
-            else if (tokens[0].Equals("sort"))
-            {
-                GetSorted(tokens, input, result);
-            }
-            else if (tokens[0].Equals("rollLeft"))
-            {
-                GetRollLeft(tokens, input, result);
-            }
-            else if (tokens[0].Equals("rollRight"))
-            {
-                GetRollRight(tokens, input, result);
-            }
-            input.Clear();
-            input.AddRange(result);
         }
 
-        Console.WriteLine("[" + string.Join(", ", result) + "]");
+        Console.WriteLine("[" + string.Join(", ", array) + "]");
     }
 
-    static void GetRollRight(string[] tokens, List<string> input, List<string> result)
+    static void RollRight(List<string> array, int rollRightCount)
     {
-        int count = int.Parse(tokens[1]) % input.Count;
+        int count = rollRightCount % array.Count;
 
         for (int times = 0; times < count; times++)
         {
-            string lastEment = input[input.Count - 1];
+            string lastEment = array[array.Count - 1];
 
-            for (int i = input.Count - 1; i > 0; i--)
+            for (int i = array.Count - 1; i > 0; i--)
             {
-                input[i] = input[i - 1];
+                array[i] = array[i - 1];
 
             }
 
-            input[0] = lastEment;
+            array[0] = lastEment;
         }
-
-        result.AddRange(input);
     }
 
-    static void GetRollLeft(string[] tokens, List<string> input, List<string> result)
+    static void RollLeft(List<string> array, int rollLeftCount)
     {
-        int count = int.Parse(tokens[1]) % input.Count;
+        int count = rollLeftCount % array.Count;
 
         for (int times = 0; times < count; times++)
         {
-            string firstIndex = input[0];
+            string firstIndex = array[0];
 
-            for (int i = 0; i < input.Count - 1; i++)
+            for (int i = 0; i < array.Count - 1; i++)
             {
-                input[i] = input[i + 1];
+                array[i] = array[i + 1];
             }
 
-            input[input.Count - 1] = firstIndex;
+            array[array.Count - 1] = firstIndex;
         }
-
-        result.AddRange(input);
     }
 
-    static void GetSorted(string[] tokens, List<string> input, List<string> result)
+    static void Sorted(List<string> array, int sortStart, int sortCount)
     {
-        int fromIndex = int.Parse(tokens[2]);
-        int count = int.Parse(tokens[4]);
-
-        if ((fromIndex < 0 || fromIndex >= input.Count) ||
-            (fromIndex + count < 0 || fromIndex + count >= input.Count))
-        {
-            PrindInvalidInput();
-            result.AddRange(input);
-        }
-        else
-        {
-            var tempList = input
-                .Skip(fromIndex)
-                .Take(count)
-                .OrderBy(x => x)
-                .ToList();
-
-            bool isEqualIndex = false;
-            int indexTemp = 0;
-
-            for (int i = 0; i < input.Count; i++)
-            {
-                if (i.Equals(fromIndex))
-                {
-                    isEqualIndex = true;
-                }
-                else if (i.Equals(fromIndex + count))
-                {
-                    isEqualIndex = false;
-                }
-
-                if (isEqualIndex)
-                {
-                    result.Add(tempList[indexTemp]);
-                    indexTemp++;
-                }
-                else
-                {
-                    result.Add(input[i]);
-                }
-            }
-        }
+        array.Sort(sortStart, sortCount, StringComparer.CurrentCulture);
     }
 
-    static void GetRevers(string[] tokens, List<string> input, List<string> result)
+    static void Reverse(List<string> array, int reverseStart, int reverseCount)
     {
-        int fromIndex = int.Parse(tokens[2]);
-        int count = int.Parse(tokens[4]);
-
-        if ((fromIndex < 0 || fromIndex >= input.Count) ||
-            (fromIndex + count < 0 || fromIndex + count >= input.Count))
-        {
-            PrindInvalidInput();
-            result.AddRange(input);
-        }
-        else
-        {
-            var tempList = input
-                .Skip(fromIndex)
-                .Take(count)
-                .Reverse()
-                .ToList();
-
-            bool isEqualIndex = false;
-            int indexTemp = 0;
-
-            for (int i = 0; i < input.Count; i++)
-            {
-                if (i.Equals(fromIndex))
-                {
-                    isEqualIndex = true;
-                }
-                else if (i.Equals(fromIndex + count))
-                {
-                    isEqualIndex = false;
-                }
-
-                if (isEqualIndex)
-                {
-                    result.Add(tempList[indexTemp]);
-                    indexTemp++;
-                }
-                else
-                {
-                    result.Add(input[i]);
-                }
-            }
-        }
+        array.Reverse(reverseStart, reverseCount);
     }
 
+    static bool IsValid(List<string> array, int reverseStart, int reverseCount)
+    {
+        if (reverseStart >= 0 && reverseStart < array.Count &&
+            reverseCount >= 0 && (reverseStart + reverseCount) <= array.Count)
+        {
+            return true;
+        }
+
+        return false;
+    }
+        
     static void PrindInvalidInput()
     {
         Console.WriteLine("Invalid input parameters.");
