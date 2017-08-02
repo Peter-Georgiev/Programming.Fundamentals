@@ -23,75 +23,78 @@ class ArrayManipulator
                 .Split(' ')
                 .ToArray();
             command = tokens[0];
-            if (command.Equals("exchange"))
-            {
-                int index = int.Parse(tokens[1]);
-                if (index >=0 && index < array.Count)
-                {
-                    GetExchangeIndex(array, index);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid index");
-                }
-            }
-            else if (command.Equals("max"))
-            {
-                int maxOddOrEvenIndex = GetMaxEvenOrOdd(array, tokens);
-                if (maxOddOrEvenIndex < 0)
-                {
-                    Console.WriteLine("No matches");
-                }
-                else
-                {
-                    Console.WriteLine(maxOddOrEvenIndex);
-                }
-            }
-            else if (command.Equals("min"))
-            {
-                int minOddOrEvenIndex = GetMinEvenOrOdd(array, tokens);
-                if (tokens[1].Equals("odd") && minOddOrEvenIndex <= 1000)
-                {
-                    Console.WriteLine(minOddOrEvenIndex);
-                }
-                else if (tokens[1].Equals("even") && minOddOrEvenIndex <= 1000)
-                {
-                    Console.WriteLine(minOddOrEvenIndex);
-                }
-                else
-                {
-                    Console.WriteLine("No matches");
-                }
-            }
-            else if (command.Equals("first"))
-            {
-                int firstCount = int.Parse(tokens[1]);
 
-                if (firstCount > 0 && firstCount <= array.Count)
-                {
-                    List<int> resultFirstElements =
-                    GetFirstEvenOrOddElements(array, tokens);
-                    PrintResult(resultFirstElements);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid count");
-                }
-            }
-            else if (command.Equals("last"))
+            switch (command)
             {
-                int lastCount = int.Parse(tokens[1]);
+                case "exchange":
+                    int index = int.Parse(tokens[1]);
+                    if (index >= 0 && index < array.Count)
+                    {
+                        GetExchangeIndex(array, index);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid index");
+                    }
+                    break;
 
-                if (lastCount > 0 && lastCount <= array.Count)
-                {
-                    List<int> resultLastElements =
-                    GetLastEvenOrOddElements(array, tokens);
-                    PrintResult(resultLastElements);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid count");
-                }
+                case "max":
+                    int maxOddOrEvenIndex = GetMaxEvenOrOdd(array, tokens);
+                    if (maxOddOrEvenIndex < 0)
+                    {
+                        Console.WriteLine("No matches");
+                    }
+                    else
+                    {
+                        Console.WriteLine(maxOddOrEvenIndex);
+                    }
+                    break;
+
+                case "min":
+                    int minOddOrEvenIndex = GetMinEvenOrOdd(array, tokens);
+                    if (tokens[1] == "odd" && minOddOrEvenIndex <= 1000)
+                    {
+                        Console.WriteLine(minOddOrEvenIndex);
+                    }
+                    else if (tokens[1] == "even" && minOddOrEvenIndex <= 1000)
+                    {
+                        Console.WriteLine(minOddOrEvenIndex);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No matches");
+                    }
+                    break;
+
+                case "first":
+                    int firstCount = int.Parse(tokens[1]);
+
+                    if (firstCount <= array.Count)
+                    {
+                        List<int> resultFirstElements =
+                        GetFirstEvenOrOddElements(array, tokens);
+                        PrintResult(resultFirstElements);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid count");
+                    }
+                    break;
+
+                case "last":
+                    int lastCount = int.Parse(tokens[1]);
+
+                    if (lastCount <= array.Count)
+                    {
+                        List<int> resultLastElements =
+                        GetLastEvenOrOddElements(array, tokens);
+                        PrintResult(resultLastElements);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid count");
+                    }
+                    break;
             }
         }
 
@@ -176,7 +179,7 @@ class ArrayManipulator
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if ((array[i] < tempArr) && (array[i] % 2 != 0))
+                if ((array[i] <= tempArr) && (array[i] % 2 != 0))
                 {
                     tempArr = array[i];
                     index = i;
@@ -184,10 +187,10 @@ class ArrayManipulator
             }
         }
         else if (tokens[1].Equals("even"))
-        {         
+        {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] < tempArr && array[i] % 2 == 0)
+                if (array[i] <= tempArr && array[i] % 2 == 0)
                 {
                     tempArr = array[i];
                     index = i;
@@ -207,7 +210,7 @@ class ArrayManipulator
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] > tempArr && array[i] % 2 != 0)
+                if (array[i] >= tempArr && array[i] % 2 != 0)
                 {
                     tempArr = array[i];
                     index = i;
@@ -218,7 +221,7 @@ class ArrayManipulator
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] > tempArr && array[i] % 2 == 0)
+                if (array[i] >= tempArr && array[i] % 2 == 0)
                 {
                     tempArr = array[i];
                     index = i;
@@ -231,7 +234,7 @@ class ArrayManipulator
 
     private static void GetExchangeIndex(List<int> array, int index)
     {
-        List<int> tempArr =  array
+        List<int> tempArr = array
             .Skip(index + 1)
             .Take(array.Count - (index + 1))
             .ToList();
