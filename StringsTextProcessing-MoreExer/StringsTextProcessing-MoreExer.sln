@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.ValueOfString", "01.ValueOfString\01.ValueOfString.csproj", "{445C8C6A-4B91-4C34-AE85-7ACFA26FCBE7}"
 EndProject
@@ -9,11 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.DiamondProblem", "02.Dia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.SerializeString", "03.SerializeString\03.SerializeString.csproj", "{D8B280F4-DB58-4176-84D7-7D1E6E24C9BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.Stateless", "02.Stateless\02.Stateless.csproj", "{C8D20CFB-62C2-4D0B-A4CC-27A8B1B75423}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.Stateless", "02.Stateless\06.Stateless.csproj", "{C8D20CFB-62C2-4D0B-A4CC-27A8B1B75423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06.Pyramidic", "06.Pyramidic\06.Pyramidic.csproj", "{F75B2227-B843-41A3-B3AD-357C39D42C60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.Pyramidic", "06.Pyramidic\07.Pyramidic.csproj", "{F75B2227-B843-41A3-B3AD-357C39D42C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07.Nilapdromes", "07.Nilapdromes\07.Nilapdromes.csproj", "{3DF8855F-D2BE-4A43-90C7-6CED27207E58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08.Nilapdromes", "07.Nilapdromes\08.Nilapdromes.csproj", "{3DF8855F-D2BE-4A43-90C7-6CED27207E58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.DeserializeString", "04.DeserializeString\04.DeserializeString.csproj", "{CE6023A8-FE9B-4706-AA6B-4D43354F0586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05.StringCommander", "05.StringCommander\05.StringCommander.csproj", "{915C7AD2-E3B8-4DD8-B4BA-50F5B59B327C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{3DF8855F-D2BE-4A43-90C7-6CED27207E58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DF8855F-D2BE-4A43-90C7-6CED27207E58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DF8855F-D2BE-4A43-90C7-6CED27207E58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6023A8-FE9B-4706-AA6B-4D43354F0586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6023A8-FE9B-4706-AA6B-4D43354F0586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6023A8-FE9B-4706-AA6B-4D43354F0586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6023A8-FE9B-4706-AA6B-4D43354F0586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915C7AD2-E3B8-4DD8-B4BA-50F5B59B327C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915C7AD2-E3B8-4DD8-B4BA-50F5B59B327C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915C7AD2-E3B8-4DD8-B4BA-50F5B59B327C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915C7AD2-E3B8-4DD8-B4BA-50F5B59B327C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

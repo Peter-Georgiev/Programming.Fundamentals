@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 class ArrayManipulator
 {
@@ -46,71 +44,152 @@ class ArrayManipulator
                 }
                 else
                 {
-                    Console.WriteLine(maxOddOrEvenIndex); ;
+                    Console.WriteLine(maxOddOrEvenIndex);
                 }
             }
             else if (command.Equals("min"))
             {
                 int minOddOrEvenIndex = GetMinEvenOrOdd(array, tokens);
-                if (minOddOrEvenIndex > 1000)
+                if (tokens[1].Equals("odd") && minOddOrEvenIndex <= 1000)
                 {
-                    Console.WriteLine("No matches");
+                    Console.WriteLine(minOddOrEvenIndex);
+                }
+                else if (tokens[1].Equals("even") && minOddOrEvenIndex <= 1000)
+                {
+                    Console.WriteLine(minOddOrEvenIndex);
                 }
                 else
                 {
-                    Console.WriteLine(minOddOrEvenIndex); ;
+                    Console.WriteLine("No matches");
                 }
             }
             else if (command.Equals("first"))
             {
-                //int firstCount = int.Parse(tokens[1]);
-                //if (firstCount >= 0 && firstCount < array.Count)
-                //{
-                //    GetFirstEvenOrOddElements(array, tokens);
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Invalid index");
-                //}
+                int firstCount = int.Parse(tokens[1]);
+
+                if (firstCount > 0 && firstCount <= array.Count)
+                {
+                    List<int> resultFirstElements =
+                    GetFirstEvenOrOddElements(array, tokens);
+                    PrintResult(resultFirstElements);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid count");
+                }
             }
             else if (command.Equals("last"))
             {
+                int lastCount = int.Parse(tokens[1]);
 
+                if (lastCount > 0 && lastCount <= array.Count)
+                {
+                    List<int> resultLastElements =
+                    GetLastEvenOrOddElements(array, tokens);
+                    PrintResult(resultLastElements);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid count");
+                }
             }
         }
 
-        Console.WriteLine();
+        PrintResult(array);
     }
 
-    private static void GetFirstEvenOrOddElements(List<int> array, object index)
+    private static List<int> GetLastEvenOrOddElements(List<int> array, string[] tokens)
     {
-        throw new NotImplementedException();
+        List<int> resultLastElements = new List<int>();
+        int lastCount = int.Parse(tokens[1]);
+
+        if (tokens[2].Equals("odd"))
+        {
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] % 2 != 0)
+                {
+                    resultLastElements.Add(array[i]);
+                }
+            }
+        }
+        else if (tokens[2].Equals("even"))
+        {
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] % 2 == 0)
+                {
+                    resultLastElements.Add(array[i]);
+                }
+            }
+        }
+
+        List<int> result = new List<int>(lastCount);
+        for (int i = resultLastElements.Count - 1; i >= 0; i--)
+        {
+            if (lastCount > 0)
+            {
+                result.Add(resultLastElements[i]);
+                lastCount--;
+            }
+        }
+        result.Reverse();
+
+        return result;
+    }
+
+    private static List<int> GetFirstEvenOrOddElements(List<int> array, string[] tokens)
+    {
+        List<int> resultFirstElements = new List<int>();
+        int firstCount = int.Parse(tokens[1]);
+
+        if (tokens[2].Equals("odd"))
+        {
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] % 2 != 0 && resultFirstElements.Count < firstCount)
+                {
+                    resultFirstElements.Add(array[i]);
+                }
+            }
+        }
+        else if (tokens[2].Equals("even"))
+        {
+            for (int i = 0; i < array.Count; i++)
+            {
+                if (array[i] % 2 == 0 && resultFirstElements.Count < firstCount)
+                {
+                    resultFirstElements.Add(array[i]);
+                }
+            }
+        }
+
+        return resultFirstElements;
     }
 
     private static int GetMinEvenOrOdd(List<int> array, string[] tokens)
     {
+        int tempArr = int.MaxValue;
         int index = int.MaxValue;
 
-        if (index + 1 % 2 != 0)
-        {
-
-        }
         if (tokens[1].Equals("odd"))
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] < index + 1 && array[i] % 2 != 0)
+                if ((array[i] < tempArr) && (array[i] % 2 != 0))
                 {
+                    tempArr = array[i];
                     index = i;
                 }
             }
         }
         else if (tokens[1].Equals("even"))
-        {
+        {         
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] < index && array[i] % 2 == 0)
+                if (array[i] < tempArr && array[i] % 2 == 0)
                 {
+                    tempArr = array[i];
                     index = i;
                 }
             }
@@ -121,14 +200,16 @@ class ArrayManipulator
 
     private static int GetMaxEvenOrOdd(List<int> array, string[] tokens)
     {
+        int tempArr = int.MinValue;
         int index = int.MinValue;
 
         if (tokens[1].Equals("odd"))
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] > index + 1 && array[i] % 2 != 0)
+                if (array[i] > tempArr && array[i] % 2 != 0)
                 {
+                    tempArr = array[i];
                     index = i;
                 }
             }
@@ -137,8 +218,9 @@ class ArrayManipulator
         {
             for (int i = 0; i < array.Count; i++)
             {
-                if (array[i] > index && array[i] % 2 == 0)
+                if (array[i] > tempArr && array[i] % 2 == 0)
                 {
+                    tempArr = array[i];
                     index = i;
                 }
             }
