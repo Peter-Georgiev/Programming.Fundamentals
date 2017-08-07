@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
@@ -23,22 +22,22 @@ class FishStatistics
     static void Main()
     {
         List<Fish> fished = new List<Fish>();
-        string pattern = @"((?<tail>[>]+)?(?<startTail>[<]))(?<body>[(]+)(?<status>['-Xx][>])";
+        string pattern = @"(?<tail>[>]*)(?<startTail><)(?<body>[(]+)(?<status>['-Xx])(?<head>>)";
 
-        string input = Console.ReadLine();
+        string readLine = Console.ReadLine();
 
-        MatchCollection regexMatches = Regex.Matches(input, pattern);
+        MatchCollection regex = Regex.Matches(readLine, pattern);
 
-        foreach (Match regex in regexMatches)
+        foreach (Match r in regex)
         {
             Fish newFish = new Fish()
             {
-                Picture = GetPictureFish(regex),
-                Tail = regex.Groups["tail"].Length * 2,
-                StatusTail = GetStatusTypeTail(regex),
-                Body = regex.Groups["body"].Length * 2,
-                StatusBody = GetStatusTypeBody(regex),
-                Status = GetStatusFish(regex)
+                Picture = GetPictureFish(r),
+                Tail = r.Groups["tail"].Length * 2,
+                StatusTail = GetStatusTailType(r),
+                Body = r.Groups["body"].Length * 2,
+                StatusBody = GetStatusBodyType(r),
+                Status = GetStatusFish(r)
             };
 
             fished.Add(newFish);
@@ -47,15 +46,15 @@ class FishStatistics
         PrintFish(fished);
     }
 
-    static string GetStatusTypeBody(Match regex)
+    static string GetStatusBodyType(Match r)
     {
         string type = String.Empty;
 
-        if (regex.Groups["body"].Length > 10)
+        if (r.Groups["body"].Length > 10)
         {
             type = "Long";
         }
-        else if (regex.Groups["body"].Length > 5)
+        else if (r.Groups["body"].Length > 5)
         {
             type = "Medium";
         }
@@ -67,19 +66,19 @@ class FishStatistics
         return type;
     }
 
-    static string GetStatusTypeTail(Match regex)
+    static string GetStatusTailType(Match r)
     {
         string type = String.Empty;
 
-        if (regex.Groups["tail"].Length > 5)
+        if (r.Groups["tail"].Length > 5)
         {
             type = "Long";
         }
-        else if (regex.Groups["tail"].Length > 1)
+        else if (r.Groups["tail"].Length > 1)
         {
             type = "Medium";
         }
-        else if (regex.Groups["tail"].Length.Equals(1))
+        else if (r.Groups["tail"].Length.Equals(1))
         {
             type = "Short";
         }
@@ -91,30 +90,31 @@ class FishStatistics
         return type;
     }
     
-    static string GetPictureFish(Match regex)
+    static string GetPictureFish(Match r)
     {
         string pictureFish = String.Empty;
 
-        if (!regex.Groups["tail"].Length.Equals(0))
+        if (!r.Groups["tail"].Length.Equals(0))
         {
-            pictureFish += regex.Groups["tail"].Value;
+            pictureFish += r.Groups["tail"].Value;
         }
 
-        pictureFish += regex.Groups["startTail"].Value;
-        pictureFish += regex.Groups["body"].Value;
-        pictureFish += regex.Groups["status"].Value;
+        pictureFish += r.Groups["startTail"].Value;
+        pictureFish += r.Groups["body"].Value;
+        pictureFish += r.Groups["status"].Value;
+        pictureFish += r.Groups["head"].Value;
 
         return pictureFish;      
     }
 
-    static string GetStatusFish(Match regex)
+    static string GetStatusFish(Match r)
     {
         string status = String.Empty;
-        if (regex.Groups["status"].Value.Equals("'>"))
+        if (r.Groups["status"].Value.Equals("'"))
         {
             status = "Awake";
         }
-        else if (regex.Groups["status"].Value.Equals("->"))
+        else if (r.Groups["status"].Value.Equals("-"))
         {
             status = "Asleep";
         }
@@ -130,14 +130,14 @@ class FishStatistics
     {
         if (fished.Count.Equals(0))
         {
-            Console.WriteLine("No fish found");
+            Console.WriteLine("No fish found.");
         }
         else
         {
             int count = 1;
             foreach (var fish in fished)
             {
-                Console.WriteLine($"Fish {count}: {fish.Picture}");
+                Console.WriteLine($"Fish {count++}: {fish.Picture}");
 
                 if (fish.StatusTail.Equals("None"))
                 {
@@ -158,8 +158,6 @@ class FishStatistics
                 }
 
                 Console.WriteLine($"\tStatus: {fish.Status}");
-
-                count++;
             }
         }
     }
