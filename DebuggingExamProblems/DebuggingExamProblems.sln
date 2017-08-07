@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.MelrahShake", "01.MelrahShake\01.MelrahShake.csproj", "{F4C6FA12-04DC-4971-B377-6F48803BF0CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03.CriticalBreakpoint", "03.CriticalBreakpoint\03.CriticalBreakpoint.csproj", "{B261B37F-7515-4F56-9471-325715C2D3F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04.GUnit", "04.GUnit\04.GUnit.csproj", "{F87E3DC6-0668-40CE-8EE1-2A8170A08DE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4C6FA12-04DC-4971-B377-6F48803BF0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C6FA12-04DC-4971-B377-6F48803BF0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C6FA12-04DC-4971-B377-6F48803BF0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C6FA12-04DC-4971-B377-6F48803BF0CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B261B37F-7515-4F56-9471-325715C2D3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B261B37F-7515-4F56-9471-325715C2D3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B261B37F-7515-4F56-9471-325715C2D3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B261B37F-7515-4F56-9471-325715C2D3F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F87E3DC6-0668-40CE-8EE1-2A8170A08DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87E3DC6-0668-40CE-8EE1-2A8170A08DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87E3DC6-0668-40CE-8EE1-2A8170A08DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87E3DC6-0668-40CE-8EE1-2A8170A08DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
