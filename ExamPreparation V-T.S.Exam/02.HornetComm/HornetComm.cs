@@ -18,10 +18,11 @@ class HornetComm
     static void Main()
     {
         SortedDictionary<string, List<Query>> result =
-            new SortedDictionary<string, List<Query>>();
-
-        result.Add("Messages", new List<Query>());
-        result.Add("Broadcasts", new List<Query>());
+            new SortedDictionary<string, List<Query>>
+            {
+                { "Messages", new List<Query>() },
+                { "Broadcasts", new List<Query>() }
+            };
 
         while (true)
         {
@@ -31,78 +32,54 @@ class HornetComm
                 break;
             }
 
-            string[] tokens = readLine
-                .Split(new string[] { " <-> " },
-                StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
+            GetMessages(result, readLine);
 
-            bool hasMessages = true;
-
-            GetMessages(result, readLine, ref hasMessages);
-
-            GetBroadcasts(result, readLine, hasMessages);
+            GetBroadcasts(result, readLine);
         }
 
         PrintResult(result);
     }
 
-    static void GetMessages(SortedDictionary<string, List<Query>> result, string readLine, ref bool hasMessages)
+    static void GetMessages(SortedDictionary<string, List<Query>> result, string readLine)
     {
         Match regex = Regex.Match(readLine,
-                @"(?<firstQuery>\d+) <->.*");
+            @"(?<firstQuery>^\d+) <-> (?<message>[A-Za-z0-9]+$)");
         if (regex.Success)
         {
-            regex = Regex.Match(readLine,
-            @"(?<firstQuery>^\d+) <-> (?<message>[A-Za-z0-9]+$)");
-
-            if (regex.Success)
+            Query newMessage = new Query()
             {
-                Query newMessage = new Query()
-                {
-                    Recipient = GetReversLetter(regex),
-                    Message =
-                        regex.Groups["message"].Value
-                };
+                Recipient = GetReversLetter(regex),
+                Message = regex.Groups["message"].Value
+            };
 
-                result["Messages"].Add(newMessage);
-
-            }
-            hasMessages = false;                
+            result["Messages"].Add(newMessage);
         }
     }
 
-    static void GetBroadcasts(SortedDictionary<string, List<Query>> result, string readLine, bool hasMessages)
+    static void GetBroadcasts(SortedDictionary<string, List<Query>> result, string readLine)
     {
         Match regex = Regex.Match(readLine,
-                @".*<-> (?<secondQuery>[A-Za-z0-9]+)");
-        if (hasMessages && regex.Success)
-        {
-            regex = Regex.Match(readLine,
            @"(?<firstQuery>^[^0-9]+) <-> (?<secondQuery>[A-Za-z0-9]+$)");
-
-            if (regex.Success)
+        if (regex.Success)
+        {
+            Query newBroadcast = new Query()
             {
-                Query newBroadcast = new Query()
-                {
-                    Frequency = GetUpperAndLowerLetters(regex),
-                    Message =
-                    regex.Groups["firstQuery"].Value
-                };
+                Frequency = GetUpperAndLowerLetters(regex),
+                Message =
+                regex.Groups["firstQuery"].Value
+            };
                         
-                result["Broadcasts"].Add(newBroadcast);
-            }
+            result["Broadcasts"].Add(newBroadcast);
         }
     }
 
     static string GetReversLetter(Match regex)
     {
-        string firstQuery =
-                    regex.Groups["firstQuery"].Value;
-
-        string newFirstQuery = String.Concat(firstQuery
+        string firstQuery = String.Concat(
+            regex.Groups["firstQuery"].Value
             .ToCharArray()
             .Reverse());
-        return newFirstQuery;
+        return firstQuery;
     }
 
     static string GetUpperAndLowerLetters(Match regex)
