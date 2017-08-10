@@ -27,19 +27,6 @@ class HornetArmada
         }
     }
 
-    static void PrinterSoldierType(string[] command, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData, Dictionary<string, int> legionActivityData)
-    {
-        string type = command[0];
-
-        foreach (var kvp in legionActivityData.OrderByDescending(x => x.Value))
-        {
-            if (soldiersNameTypeCountData[kvp.Key].ContainsKey(type))
-            {
-                Console.WriteLine($"{kvp.Value} : {kvp.Key}");
-            }
-        }
-    }
-
     static void PrintActivitySoldierType(string[] command, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData, Dictionary<string, int> legionActivityData)
     {
         int activity = int.Parse(command[0]);
@@ -54,6 +41,19 @@ class HornetArmada
             if (legionActivityData[legionName] < activity)
             {
                 Console.WriteLine($"{legionName} -> {kvp.Value[type]}");        
+            }
+        }
+    }
+
+    static void PrinterSoldierType(string[] command, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData, Dictionary<string, int> legionActivityData)
+    {
+        string type = command[0];
+
+        foreach (var kvp in legionActivityData.OrderByDescending(x => x.Value))
+        {
+            if (soldiersNameTypeCountData[kvp.Key].ContainsKey(type))
+            {
+                Console.WriteLine($"{kvp.Value} : {kvp.Key}");
             }
         }
     }
