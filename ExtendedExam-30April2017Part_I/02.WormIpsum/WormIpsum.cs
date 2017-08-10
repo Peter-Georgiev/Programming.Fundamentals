@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 class WormIpsum
 {
@@ -28,6 +26,7 @@ class WormIpsum
 
             MatchCollection regexWord = Regex.Matches(readLine, @"\b\w+\b");
             StringBuilder newSentence = new StringBuilder(readLine);
+
             foreach (var w in regexWord)
             {
                 char[] @char = w.ToString().ToCharArray();
@@ -53,7 +52,7 @@ class WormIpsum
                     }
                 }
 
-                if (max == 1)
+                if (max < 2)
                 {
                     continue;
                 }
@@ -65,8 +64,8 @@ class WormIpsum
 
                 string newWord = String.Concat(@char);
                 newSentence = newSentence.Replace(w.ToString(), newWord);
-
             }
+
             result.Add(newSentence.ToString());
         }
 
