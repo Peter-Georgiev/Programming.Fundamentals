@@ -1,46 +1,48 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Linq;
 
 class EnduranceRally
 {
     static void Main()
     {
-        string[] driversName = Regex.Split(Console.ReadLine(), @"\s+")
-            .Where(x => x.Length > 0)
-            .ToArray();
-        double[] zonesNumbers = Regex.Split(Console.ReadLine(), @"\s+")
-            .Where(x => x.Length > 0)
-            .Select(x => double.Parse(x.Trim()) * -1)
-            .ToArray();
-        int[] indexes = Regex.Split(Console.ReadLine(), @"\s+")
-            .Where(x => x.Length > 0)
-            .Select(int.Parse)
-            .Distinct()
-            .Where(x => x >= 0 && x <= zonesNumbers.Length - 1)
-            .ToArray();
+        string[] tokensDrivers = Console.ReadLine()
+                    .Split(' ')
+                    .ToArray();
+        double[] zones = Console.ReadLine()
+                    .Split(' ')
+                    .Select(double.Parse)
+                    .Select(x => x *= -1)
+                    .ToArray();
+        int[] indexes = Console.ReadLine()
+                    .Split(' ')
+                    .Select(int.Parse)
+                    .Distinct()
+                    .Where(x => x >= 0 && x < zones.Length)
+                    .ToArray();
 
-        foreach (var index in indexes)
+        foreach (var i in indexes)
         {
-            zonesNumbers[index] *= -1;
+            zones[i] *= -1;
         }
 
-        foreach (var driver in driversName)
+        for (int i = 0; i < tokensDrivers.Length; i++)
         {
-            double fuel = (double)driver[0];
-            for (int i = 0; i < zonesNumbers.Length; i++)
+            double fuel = (double)tokensDrivers[i][0];
+
+            for (int z = 0; z < zones.Length; z++)
             {
-                fuel += zonesNumbers[i];
+                fuel += zones[z];
+
                 if (fuel <= 0)
                 {
-                    Console.WriteLine($"{driver} - reached {i}");
+                    Console.WriteLine($"{tokensDrivers[i]} - reached {z}");
                     break;
                 }
             }
 
             if (fuel > 0)
             {
-                Console.WriteLine($"{driver} - fuel left {fuel:F2}");
+                Console.WriteLine($"{tokensDrivers[i]} - fuel left {fuel:F2}");
             }
         }
     }

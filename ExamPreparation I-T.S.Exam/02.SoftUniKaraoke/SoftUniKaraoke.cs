@@ -1,78 +1,97 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 class SoftUniKaraoke
 {
     static void Main()
     {
-        var input = new Dictionary<string, List<string>>();
-        string[] namePlayers = Regex.Split(Console.ReadLine(), @"\s*,\s*");
-        string[] nameSongs = Regex.Split(Console.ReadLine(), @"\s*,\s*");
+        Dictionary<string, HashSet<string>> input =
+            new Dictionary<string, HashSet<string>>();
 
-        foreach (var item in namePlayers)
+        string[] participants = InsertParticipant();
+        string[] songs = InsertSongs();
+
+        string readLine = String.Empty;
+        while ((readLine = Console.ReadLine()) != "dawn")
         {
-            input[item] = new List<string>();
+            InsertParticipantSongAward(input, participants, songs, readLine);
         }
-
-        AddedParticipant(input, namePlayers, nameSongs);
 
         PrintResult(input);
     }
 
-    static void AddedParticipant(Dictionary<string, List<string>> input, string[] namePlayers, string[] nameSongs)
+    private static void PrintResult(Dictionary<string, HashSet<string>> input)
     {
-        while (true)
+        if (input.Count.Equals(0))
         {
-            string command = Console.ReadLine();
-            if (command.Equals("dawn"))
+            Console.WriteLine("No awards");
+            return;
+        }
+
+        foreach (var kvp in input.OrderByDescending(x => x.Value.Count).ThenBy(x => x.Key))
+        {
+            Console.WriteLine($"{kvp.Key}: {kvp.Value.Count} awards");
+
+            foreach (var a in kvp.Value.OrderBy(x => x))
             {
-                break;
-            }
-
-            string[] tokens = Regex.Split(command, @"\s*,\s*");
-
-            string participant = tokens[0];
-            string song = tokens[1];
-            string award = tokens[2];
-
-            bool hasPlayersAndSongs =
-                namePlayers.Contains(participant) && nameSongs.Contains(song);
-            if (hasPlayersAndSongs)
-            {
-                input[participant].Add(award);
+                Console.WriteLine("--" + a);
             }
         }
     }
 
-    static void PrintResult(Dictionary<string, List<string>> input)
+    private static void InsertParticipantSongAward(Dictionary<string, HashSet<string>> input, string[] participants, string[] songs, string readLine)
     {
-        var result = input
-            .Select(item => new
-            {
-                playerName = item.Key,
-                awards = item.Value.Distinct().OrderBy(x => x),
-                awardsCount = item.Value.Distinct().Count()
-            })
-            .Where(x => x.awardsCount > 0)
-            .OrderByDescending(x => x.awardsCount)
-            .ThenBy(x => x.playerName)
+        string[] tokens = readLine
+            .Split(new string[] { ", " },
+            StringSplitOptions.RemoveEmptyEntries)
+            .ToArray();
+        string participant = tokens[0].Trim();
+        string song = tokens[1].Trim();
+        string award = tokens[2].Trim();
+
+        if (!participants.Contains(participant) || !songs.Contains(song))
+        {
+            return;
+        }
+
+        if (!input.ContainsKey(participant))
+        {
+            input.Add(participant, new HashSet<string>());
+        }
+
+        input[participant].Add(award);
+    }
+
+    private static string[] InsertSongs()
+    {
+        string[] tokensSongs = Console.ReadLine()
+            .Split(new string[] { ", " },
+            StringSplitOptions.RemoveEmptyEntries)
             .ToArray();
 
-        foreach (var p in result)
-        {
-            Console.WriteLine($"{p.playerName}: {p.awardsCount} awards");
+        string[] songs = new string[tokensSongs.Length];
 
-            foreach (var aw in p.awards.OrderBy(x => x))
-            {
-                Console.WriteLine($"--{aw}");
-            }
-        }
-
-        if (result.Length.Equals(0))
+        for (int i = 0; i < songs.Length; i++)
         {
-            Console.WriteLine("No awards");
+            songs[i] = tokensSongs[i].Trim();
         }
+        return songs;
+    }
+
+    private static string[] InsertParticipant()
+    {
+        string[] tokensParticipants = Console.ReadLine()
+                    .Split(new string[] { ", " },
+                    StringSplitOptions.RemoveEmptyEntries)
+                    .ToArray();
+
+        string[] participants = new string[tokensParticipants.Length];
+
+        for (int i = 0; i < participants.Length; i++)
+        {
+            participants[i] = tokensParticipants[i].Trim();
+        }
+        return participants;
     }
 }
