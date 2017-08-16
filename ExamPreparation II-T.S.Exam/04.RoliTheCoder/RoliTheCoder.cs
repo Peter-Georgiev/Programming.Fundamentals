@@ -6,89 +6,75 @@ using System.Text.RegularExpressions;
 class Events
 {
     public string Name { get; set; }
-    public List<string> Participant { get; set; }
+
+    public HashSet<string> Participant { get; set; }
 
     public Events(string name)
     {
         this.Name = name;
-        this.Participant = new List<string>();
+        this.Participant = new HashSet<string>();
     }
+
 }
 
 class RoliTheCoder
 {
     static void Main()
     {
-        var events = new Dictionary<int, Events>();
+        Dictionary<int, Events> data =
+            new Dictionary<int, Events>();
 
-        while (true)
+        InsertEvent(data);
+
+        PrintResult(data);
+    }
+
+    private static void PrintResult(Dictionary<int, Events> data)
+    {
+        foreach (var e in data.Values.OrderByDescending(p => p.Participant.Count).ThenBy(n => n.Name))
         {
-            string command = Console.ReadLine();
-            if (command.Equals("Time for Code"))
-            {
-                break;
-            }
+            Console.WriteLine($"{e.Name} - {e.Participant.Count}");
 
-            Match regex = Regex.Match(command,
-                @"(?<id>\d+) #(?<event>\w+)\s*(?<participants>(?:@[a-zA-Z0-9'-]+\s*)*)");
+            foreach (var p in e.Participant.OrderBy(p => p))
+            {
+                Console.WriteLine("@" + p);
+            }
+        }
+    }
+
+    private static void InsertEvent(Dictionary<int, Events> data)
+    {
+        string readLine;
+        while ((readLine = Console.ReadLine()) != "Time for Code")
+        {
+            Match regex = Regex.Match(readLine,
+                @"(?<id>\d+) #(?<name>\w+).*");
+
             if (!regex.Success)
             {
                 continue;
             }
 
-            int ID = int.Parse(regex.Groups["id"].Value.Trim());
-            string eventName = regex.Groups["event"].Value.Trim();
-            string participantsStr = regex.Groups["participants"].Value;
-            string[] participants = new string[0];
+            int id = int.Parse(regex.Groups["id"].Value);
+            string name = regex.Groups["name"].Value;
 
-            if (participantsStr.Length > 0)
+            string[] tokens = readLine
+                .Split(new[] { ' ', '@' },
+                StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Trim())
+                .ToArray();
+
+            if (!data.ContainsKey(id))
             {
-                participants = participantsStr
-                    .Split(new char[] { ' ' },
-                    StringSplitOptions.RemoveEmptyEntries)
-                    .ToArray();
+                data.Add(id, new Events(name));
             }
 
-            if (!events.ContainsKey(ID))
+            if (data[id].Name == name)
             {
-                Events newEvent = new Events(eventName);
-                newEvent.Participant.AddRange(participants);
-
-                events[ID] = newEvent;
-            }
-
-            if (events[ID].Name == eventName)
-            {
-                events[ID].Participant.AddRange(participants);
-            }
-
-            foreach (var e in events)
-            {
-                e.Value.Participant = e.Value.Participant
-                    .Distinct()
-                    .OrderBy(a => a)
-                    .ToList();
-            }
-        }
-
-        PrintResult(events);
-    }
-
-    static void PrintResult(Dictionary<int, Events> events)
-    {
-        var result = events
-                    .OrderByDescending(x => x.Value.Participant.Count)
-                    .ThenBy(x => x.Value.Name)
-                    .Select(a => a.Value)
-                    .ToList();
-
-        foreach (var e in result)
-        {
-            Console.WriteLine($"{e.Name} - {e.Participant.Count}");
-            
-            foreach (var p in e.Participant)
-            {
-                Console.WriteLine(p);
+                for (int i = 2; i < tokens.Length; i++)
+                {
+                    data[id].Participant.Add(tokens[i]);
+                }
             }
         }
     }
