@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 class Demon
 {
-    public string Name { get; set; }
-    public int Health { get; set; }
+    public double Health { get; set; }
+
     public double Damage { get; set; }
 }
 
@@ -14,79 +14,80 @@ class NetherRealms
 {
     static void Main()
     {
-        List<Demon> demons = new List<Demon>();
+        SortedDictionary<string, Demon> data = new SortedDictionary<string, Demon>();        
 
-        string[] tokens = Console.ReadLine()
-            .Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim())
-            .ToArray();
+        InsertDemon(data);
 
-        for (int i = 0; i < tokens.Length; i++)
+        PrintResult(data);
+    }
+
+    private static void InsertDemon(SortedDictionary<string, Demon> data)
+    {
+        string[] tokens = ReadLine();
+
+        foreach (var t in tokens)
         {
-            MatchCollection regex = 
-                Regex.Matches(tokens[i],
-                @"(?<number>-?\d+(?:\.\d+)?)|(?<characters>[^*+-\/\.])|(?<arithmetic>[*\/])");
+            int health = 0;
+            double damage = 0d;
+            MatchCollection regex =
+                Regex.Matches(t, @"(?<number>-?\d+(?:\.\d+)?)|(?<characters>[^*+-\/\.])|(?<arithmetic>[*\/])");
 
-            int healt = 0;
-            double damage = 0.00d;
-            List<char> arithmetic = new List<char>();
-
-            foreach (Match item in regex)
+            foreach (Match r in regex)
             {
-                if (item.Groups["characters"].Value.Trim() != String.Empty)
+                if (r.Groups["characters"].Value.Trim() != String.Empty)
                 {
-                    healt += char.Parse(item.Groups["characters"].Value.Trim());
+                    health += char.Parse(r.Groups["characters"].Value.Trim());
                 }
 
-                if (item.Groups["number"].Value != String.Empty)
+                if (r.Groups["number"].Value != String.Empty)
                 {
-                    damage += double.Parse(item.Groups["number"].Value);
+                    damage += double.Parse(r.Groups["number"].Value);
                 }
+            }
 
-                if (item.Groups["arithmetic"].Value != String.Empty)
+            foreach (Match r in regex)
+            {
+                if (r.Groups["arithmetic"].Value != String.Empty)
                 {
-                    char[] ch = new char[] { '*', '/' };
-                    if (ch.Contains(char.Parse(item.Groups["arithmetic"].Value)))
+                    if ("*/".Contains(char.Parse(r.Groups["arithmetic"].Value)))
                     {
-                        arithmetic.Add(char.Parse(item.Groups["arithmetic"].Value));
+                        if (char.Parse(r.Groups["arithmetic"].Value) == '*')
+                        {
+                            damage *= 2;
+                        }
+                        else if (char.Parse(r.Groups["arithmetic"].Value) == '/')
+                        {
+                            damage /= 2;
+                        }
                     }
                 }
             }
 
-            foreach (var calc in arithmetic)
+            data[t] = new Demon()
             {
-                switch (calc)
-                {
-                    case '*':
-                        damage *= 2;
-                        break;
-                    case '/':
-                        damage /= 2;
-                        break;
-                }
-            }
-
-            Demon newDemon = new Demon
-            {
-                Name = tokens[i],
-                Health = healt,
+                Health = health,
                 Damage = damage
             };
-
-            demons.Add(newDemon);
         }
-
-        PrintResult(demons);
     }
 
-    private static void PrintResult(List<Demon> demons)
+    private static void PrintResult(SortedDictionary<string, Demon> data)
     {
-        List<Demon> result = demons
-                    .OrderBy(x => x.Name)
-                    .ToList();
-        foreach (var d in result)
+        foreach (var kvp in data)
         {
-            Console.WriteLine($"{d.Name} - {d.Health} health, {d.Damage:F2} damage");
+            Console.WriteLine($"{kvp.Key} - " +
+                $"{kvp.Value.Health} health, {kvp.Value.Damage:F2} damage");
         }
+    }
+
+    private static string[] ReadLine()
+    {
+        string readLine = Console.ReadLine();
+
+        string[] tokens = Regex.Split(readLine, @",\s*")
+            .Where(x => x.Length > 0)
+            .Select(x => x.Trim())
+            .ToArray();
+        return tokens;
     }
 }
