@@ -6,9 +6,9 @@ using System.Text;
 
 class Query
 {
-    public string Recipient { get; set; }
-
     public string Frequency { get; set; }
+
+    public string Recipient { get; set; }
 
     public string Message { get; set; }
 }
@@ -17,118 +17,115 @@ class HornetComm
 {
     static void Main()
     {
-        SortedDictionary<string, List<Query>> result =
-            new SortedDictionary<string, List<Query>>
+        Dictionary<string, List<Query>> data =
+            new Dictionary<string, List<Query>>
             {
-                { "Messages", new List<Query>() },
-                { "Broadcasts", new List<Query>() }
+                { "broadcast", new List<Query>() },
+                { "message", new List<Query>() }
             };
+        string readLine;
 
-        while (true)
+        while ((readLine = Console.ReadLine()) != "Hornet is Green")
         {
-            string readLine = Console.ReadLine();
-            if (readLine.Equals("Hornet is Green"))
+            Match regexBroadcast = Regex.Match(readLine,
+                @"(?<message>^[^\d]+) <-> (?<frequency>[0-9A-Za-z]+$)");
+            Match regexMessage = Regex.Match(readLine,
+                @"(?<recipient>^[0-9]+) <-> (?<message>[0-9A-Za-z]+$)");
+
+            if (!regexBroadcast.Success && ! regexMessage.Success)
             {
-                break;
+                continue;
             }
 
-            GetMessages(result, readLine);
-
-            GetBroadcasts(result, readLine);
-        }
-
-        PrintResult(result);
-    }
-
-    static void GetMessages(SortedDictionary<string, List<Query>> result, string readLine)
-    {
-        Match regex = Regex.Match(readLine,
-            @"(?<firstQuery>^\d+) <-> (?<message>[A-Za-z0-9]+$)");
-        if (regex.Success)
-        {
-            Query newMessage = new Query()
+            if (regexBroadcast.Success)
             {
-                Recipient = GetReversLetter(regex),
-                Message = regex.Groups["message"].Value
-            };
-
-            result["Messages"].Add(newMessage);
-        }
-    }
-
-    static void GetBroadcasts(SortedDictionary<string, List<Query>> result, string readLine)
-    {
-        Match regex = Regex.Match(readLine,
-           @"(?<firstQuery>^[^0-9]+) <-> (?<secondQuery>[A-Za-z0-9]+$)");
-        if (regex.Success)
-        {
-            Query newBroadcast = new Query()
-            {
-                Frequency = GetUpperAndLowerLetters(regex),
-                Message =
-                regex.Groups["firstQuery"].Value
-            };
-                        
-            result["Broadcasts"].Add(newBroadcast);
-        }
-    }
-
-    static string GetReversLetter(Match regex)
-    {
-        string firstQuery = String.Concat(
-            regex.Groups["firstQuery"].Value
-            .ToCharArray()
-            .Reverse());
-        return firstQuery;
-    }
-
-    static string GetUpperAndLowerLetters(Match regex)
-    {
-        string frequency = regex.Groups["secondQuery"].Value;
-        StringBuilder newFrequency = new StringBuilder();
-
-        foreach (var str in frequency)
-        {
-            if (Char.IsLower(str))
-            {
-                newFrequency.Append(Char.ToUpper(str));
+                InsertBroadcast(data, regexBroadcast);
             }
-            else if (Char.IsUpper(str))
+
+            if (regexMessage.Success)
             {
-                newFrequency.Append(Char.ToLower(str));
+                InsertMessage(data, regexMessage);
+            }
+        }
+
+        PrintResult(data);
+    }
+
+    private static void InsertBroadcast(Dictionary<string, List<Query>> data, Match regexBroadcast)
+    {
+        string message = regexBroadcast.Groups["message"].Value;
+        StringBuilder frequency = new StringBuilder();
+        foreach (var l in regexBroadcast.Groups["frequency"].Value)
+        {
+            if (char.IsLower(l))
+            {
+                frequency.Append(char.ToUpper(l));
+            }
+            else if (char.IsUpper(l))
+            {
+                frequency.Append(char.ToLower(l));
             }
             else
-	        {
-                newFrequency.Append(str);
+            {
+                frequency.Append(l);
             }
         }
 
-        return newFrequency.ToString();
+        data["broadcast"].Add(new Query()
+        {
+            Frequency = frequency.ToString(),
+            Message = message
+        });
     }
 
-    static void PrintResult(SortedDictionary<string, List<Query>> result)
+    private static void InsertMessage(Dictionary<string, List<Query>> data, Match regexMessage)
     {
-        foreach (var kvp in result)
-        {
-            Console.WriteLine(kvp.Key + ":");
-            bool isNone = true;
+        string message = regexMessage.Groups["message"].Value;
+        string recipient = new String(regexMessage.Groups["recipient"].Value
+            .Reverse()
+            .ToArray());
 
-            foreach (var q in kvp.Value)
+        data["message"].Add(new Query()
+        {
+            Recipient = recipient,
+            Message = message
+        });
+    }
+
+    private static void PrintResult(Dictionary<string, List<Query>> data)
+    {
+        foreach (var kvp in data)
+        {
+            if (kvp.Key.Equals("broadcast"))
             {
-                if (kvp.Key.Equals("Broadcasts"))
+                Console.WriteLine("Broadcasts:");
+
+                if (kvp.Value.Count == 0)
+                {
+                    Console.WriteLine("None");
+                    continue;
+                }
+
+                foreach (var q in kvp.Value)
                 {
                     Console.WriteLine($"{q.Frequency} -> {q.Message}");
                 }
-                else if (kvp.Key.Equals("Messages"))
+            }
+
+            if (kvp.Key.Equals("message"))
+            {
+                Console.WriteLine("Messages:");
+
+                if (kvp.Value.Count == 0)
+                {
+                    Console.WriteLine("None");
+                    continue;
+                }
+
+                foreach (var q in kvp.Value)
                 {
                     Console.WriteLine($"{q.Recipient} -> {q.Message}");
                 }
-                isNone = false;
-            }
-
-            if (isNone)
-            {
-                Console.WriteLine("None");
             }
         }
     }
