@@ -4,26 +4,24 @@ class SplinterTrip
 {
     static void Main()
     {
-        decimal tripDistanceMiles = decimal.Parse(Console.ReadLine());
-        decimal fuelTankLiters = decimal.Parse(Console.ReadLine());
-        decimal milesInHeavyWinds = decimal.Parse(Console.ReadLine());
+        decimal tripDistance = decimal.Parse(Console.ReadLine());
+        decimal fuelTank = decimal.Parse(Console.ReadLine());
+        decimal milesSpentInHeavyWinds = decimal.Parse(Console.ReadLine());
+        
+        decimal nonHeavyWindsConsumption = (tripDistance - milesSpentInHeavyWinds) * 25;
+        decimal heavyWindsConsumption = milesSpentInHeavyWinds * (25 * 1.5m);
+        decimal fuelConsumption = nonHeavyWindsConsumption + heavyWindsConsumption;
+        decimal totalFuelConsumption = fuelConsumption + (fuelConsumption * 0.05m);
 
-        decimal milesNonHeavyWinds = (tripDistanceMiles - milesInHeavyWinds) * 25m;
-        decimal litersHeavyWinds = milesInHeavyWinds * (25 * 1.5m);
-        decimal totalLitersFuelConsumption = 
-            (((milesNonHeavyWinds + litersHeavyWinds) * 5) / 100m) +
-            (milesNonHeavyWinds + litersHeavyWinds);
-        decimal remainingFuel = fuelTankLiters - totalLitersFuelConsumption;
+        Console.WriteLine($"Fuel needed: {totalFuelConsumption:F2}L");
 
-        Console.WriteLine($"Fuel needed: {totalLitersFuelConsumption:F2}L");
-
-        if (remainingFuel >= 0)
+        if (totalFuelConsumption > fuelTank)
         {
-            Console.WriteLine($"Enough with {remainingFuel:F2}L to spare!");
+            Console.WriteLine($"We need {totalFuelConsumption - fuelTank:F2}L more fuel.");
         }
         else
         {
-            Console.WriteLine($"We need {Math.Abs(remainingFuel):F2}L more fuel.");
+            Console.WriteLine($"Enough with {fuelTank - totalFuelConsumption:F2}L to spare!");
         }
     }
 } 
