@@ -1,55 +1,52 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 class CubicMessages
 {
     static void Main()
     {
-        while (true)
+        Dictionary<string, string> data = new Dictionary<string, string>();
+
+        string readLine;
+        while ((readLine = Console.ReadLine()) != "Over!")
         {
-            string readLine = Console.ReadLine();
-            if (readLine.Equals("Over!"))
-            {
-                break;
-            }
-            int lengthMessage = int.Parse(Console.ReadLine());
-
-            Regex regex = 
-                new Regex($@"(?<left>^\d+)(?<word>[A-Za-z]{{{lengthMessage}}})(?<right>[^A-Za-z]*$)");
-
-            Match input = regex.Match(readLine);
-            string message = input.Groups["word"].Value;             
-
-            if (!input.Success)
+            int m = int.Parse(Console.ReadLine());
+            Match regex = Regex.Match(readLine, $@"(^\d+)([A-Za-z]{{{m}}})([^A-Za-z]*$)");
+            if (!regex.Success)
             {
                 continue;
             }
 
-            string leftStr = input.Groups["left"].Value;
-            string rightStr = input.Groups["right"].Value;
-            
-            int[] indexes = string.Concat(leftStr, rightStr)
+            string message = regex.Groups[2].Value;
+            int[] indexes = String.Concat(regex.Groups[1].Value, regex.Groups[3].Value)
                 .Where(Char.IsDigit)
-                .Select(x => x - '0')                
+                .Select(x => x - '0')
                 .ToArray();
+            StringBuilder digit = new StringBuilder();
 
-            StringBuilder result = new StringBuilder();
-
-            foreach (var index in indexes)
+            foreach (var i in indexes)
             {                
-                if (index < 0 || index >= message.Length)
+                if (!(i >= 0 && i < message.Length))
                 {
-                    result.Append(' ');
+                    digit.Append(' ');
+                    continue;
                 }
-                else
-                {
-                    result.Append(message[index]);
-                }
+
+                digit.Append(message[i]);
             }
 
-            Console.WriteLine($"{message} == {result}");
+            if (!data.ContainsKey(message))
+            {
+                data.Add(message, digit.ToString());
+            }
+        }
+
+        foreach (var kvp in data)
+        {
+            Console.WriteLine($"{kvp.Key} == {kvp.Value}");
         }
     }
 }
