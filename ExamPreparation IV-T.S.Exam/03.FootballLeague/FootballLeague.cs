@@ -5,159 +5,98 @@ using System.Text.RegularExpressions;
 
 class Team
 {
-    public string TeamName { get; set; }
-    public long Score { get; set; }
+    public long Globals { get; set; }
+
     public long Points { get; set; }
+
+    public Team(long points, long globals)
+    {
+        this.Globals = globals;
+        this.Points = points;
+    }
 }
 
 class FootballLeague
 {
     static void Main()
     {
-        List<Team> teams = new List<Team>();
+        Dictionary<string, Team> data =
+            new Dictionary<string, Team>();
 
-        string key = Console.ReadLine();
+        string readLine = Console.ReadLine();
+        string key = Regex.Escape(readLine);
 
-        while (true)
+        while ((readLine = Console.ReadLine()) != "final")
         {
-            string command = Console.ReadLine();
-            if (command.Equals("final"))
-            {
-                break;
-            }
-
-            string teamA, teamB;
-            long scoreTeamA, scoreTeamB;
-
-            ReadMatchInput(key, command, out teamA, out teamB, out scoreTeamA, out scoreTeamB);
-
-            ReadStandings(teams, teamA, teamB, scoreTeamA, scoreTeamB);
+            InsertTeam(data, readLine, key);
         }
 
-        PrintResult(teams);
-    }
-    
-    static void ReadMatchInput(string key, string command, out string teamA, out string teamB, out long scoreTeamA, out long scoreTeamB)
-    {
-        string pattern = Regex.Escape(key);
-
-        Regex regex =
-            new Regex($@"(?<teamA>({pattern}).*?(\1)).+?(?<teamB>(\1).*?(\1)).+?(?<score>\d+:\d+)");
-        Match match = regex.Match(command);
-
-        teamA = String.Join("",
-            match.Groups["teamA"].Value
-            .ToUpper()
-            .Remove(match.Groups["teamA"].Value.Length - key.Length, key.Length)
-            .Remove(0, key.Length)
-            .ToCharArray()
-            .Reverse());
-        teamB = String.Join("",
-            match.Groups["teamB"].Value
-            .ToUpper()
-            .Remove(match.Groups["teamB"].Value.Length - key.Length, key.Length)
-            .Remove(0, key.Length)
-            .ToCharArray()
-            .Reverse());
-        long[] scoreTeamsAandB = match.Groups["score"].Value
-            .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(long.Parse)
-            .ToArray();
-        scoreTeamA = scoreTeamsAandB[0];
-        scoreTeamB = scoreTeamsAandB[1];
+        PrintResult(data);
     }
 
-    static void ReadStandings(List<Team> teams, string teamA, string teamB, long scoreTeamA, long scoreTeamB)
+    private static void InsertTeam(Dictionary<string, Team> data, string readLine, string key)
     {
-        Team newTeamA = new Team();
-        Team newTeamB = new Team();
+        Match regex = Regex.Match(readLine,
+                        $@"{key}(?<teamA>.*?){key}.*{key}(?<teamB>.*){key}.*?(?<scoreA>\d+):(?<scoreB>\d+)");
 
-        newTeamA.TeamName = teamA;
-        newTeamA.Score = scoreTeamA;
-        newTeamB.TeamName = teamB;
-        newTeamB.Score = scoreTeamB;
+        string teamA = GetTeamName(regex.Groups["teamA"].Value);
+        string teamB = GetTeamName(regex.Groups["teamB"].Value);
+        long scoreA = long.Parse(regex.Groups["scoreA"].Value);
+        long scoreB = long.Parse(regex.Groups["scoreB"].Value);
+        long pointsA = 0;
+        long pointsB = 0;
 
-        if (scoreTeamA == scoreTeamB)
+        if (scoreA > scoreB)
         {
-            newTeamA.Points = 1;
-            newTeamB.Points = 1;
+            pointsA += 3;
         }
-        else if (scoreTeamA > scoreTeamB)
+        else if (scoreB > scoreA)
         {
-            newTeamA.Points = 3;
+            pointsB += 3;
         }
-        else if (scoreTeamB > scoreTeamA)
+        else if (scoreA == scoreB)
         {
-            newTeamB.Points = 3;
+            pointsA++;
+            pointsB++;
         }
 
-        teams.Add(newTeamA);
-        teams.Add(newTeamB);
+        if (!data.ContainsKey(teamA))
+        {
+            data.Add(teamA, new Team(0, 0));
+        }
+
+        if (!data.ContainsKey(teamB))
+        {
+            data.Add(teamB, new Team(0, 0));
+        }
+
+        data[teamA].Globals += scoreA;
+        data[teamA].Points += pointsA;
+        data[teamB].Globals += scoreB;
+        data[teamB].Points += pointsB;
     }
 
-    static void PrintResult(List<Team> teams)
+    private static void PrintResult(Dictionary<string, Team> data)
     {
-
-        Console.WriteLine("League standings:");
         int count = 1;
-        foreach (var p in SortedPoints(teams))
+        Console.WriteLine("League standings:");
+        foreach (var kvp in data.OrderByDescending(x => x.Value.Points).ThenBy(x => x.Key))
         {
-            Console.WriteLine($"{count++}. {p.Key} {p.Value}");
+            Console.WriteLine($"{count++}. {kvp.Key} {kvp.Value.Points}");
         }
-
-        
 
         Console.WriteLine("Top 3 scored goals:");
-        foreach (var s in SortedScore(teams))
+        foreach (var kvp in data.OrderByDescending(x => x.Value.Globals).ThenBy(x => x.Key).Take(3))
         {
-            Console.WriteLine($"- {s.Key} -> {s.Value}");
+            Console.WriteLine($"- {kvp.Key} -> {kvp.Value.Globals}");
         }
     }
 
-    static Dictionary<string, long> SortedScore(List<Team> teams)
+    private static string GetTeamName(string s)
     {
-        ////////////// Print -> Top 3 scored goals //////////////
-        Dictionary<string, long> sorted = new Dictionary<string, long>();
-
-        foreach (var t in teams)
-        {
-            if (!sorted.ContainsKey(t.TeamName))
-            {
-                sorted.Add(t.TeamName, 0);
-            }
-
-            sorted[t.TeamName] += t.Score;
-        }
-
-        teams.Clear();
-
-        sorted = sorted
-            .OrderByDescending(x => x.Value)
-            .ThenBy(x => x.Key)
-            .Take(3)
-            .ToDictionary(x => x.Key, x => x.Value);
-        return sorted;
-    }
-
-    static Dictionary<string, long> SortedPoints(List<Team> teams)
-    {
-        ////////////// Print -> League standings //////////////
-        Dictionary<string, long> sorted = new Dictionary<string, long>();
-
-        foreach (var t in teams)
-        {
-            if (!sorted.ContainsKey(t.TeamName))
-            {
-                sorted.Add(t.TeamName, 0);
-            }
-
-            sorted[t.TeamName] += t.Points;
-        }
-
-        sorted = sorted
-            .OrderByDescending(x => x.Value)
-            .ThenBy(x => x.Key)
-            .ToDictionary(x => x.Key, x => x.Value);
-        return sorted;
+        return String.Concat(s
+                        .ToUpper()
+                        .Reverse()
+                        .ToArray());
     }
 }
