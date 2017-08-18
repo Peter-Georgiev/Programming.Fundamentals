@@ -1,97 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Linq;
 
 class HornetArmada
 {
     static void Main()
     {
-        Dictionary<string, int> legionActivityData = new Dictionary<string, int>();
-        Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData = 
+        Dictionary<string, long> lastActivityData =
+            new Dictionary<string, long>();
+        Dictionary<string, Dictionary<string, long>> soldierData =
             new Dictionary<string, Dictionary<string, long>>();
-        
-        InsertSoldier(legionActivityData, soldiersNameTypeCountData);
 
-        string[] command = Console.ReadLine()
-            .Split(new[] { '\\' },
-            StringSplitOptions.RemoveEmptyEntries)
+        InserData(lastActivityData, soldierData);
+
+        string[] tokens = Console.ReadLine()
+            .Split('\\')
             .ToArray();
 
-        if (command.Length.Equals(2))
+        if (tokens.Length > 1)
         {
-            PrintActivitySoldierType(command, soldiersNameTypeCountData, legionActivityData);
+            PrintActivitySoldierType(lastActivityData, soldierData, tokens);
         }
         else
         {
-            PrinterSoldierType(command, soldiersNameTypeCountData, legionActivityData);
+            PrintSoldierType(lastActivityData, soldierData, tokens[0]);
         }
     }
 
-    static void PrintActivitySoldierType(string[] command, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData, Dictionary<string, int> legionActivityData)
+    private static void InserData(Dictionary<string, long> lastActivityData, Dictionary<string, Dictionary<string, long>> soldierData)
     {
-        int activity = int.Parse(command[0]);
-        string type = command[1];
+        int n = int.Parse(Console.ReadLine());
 
-        foreach (var kvp in soldiersNameTypeCountData
-            .Where(x => x.Value.ContainsKey(type))
-            .OrderByDescending(x => x.Value[type]))
+        while (n > 0)
         {
-            string legionName = kvp.Key;
+            Match regex = Regex.Match(Console.ReadLine(),
+                @"(?<activity>\d+) = (?<name>.+) -> (?<type>.+):(?<count>\d+)");
 
-            if (legionActivityData[legionName] < activity)
+            long activity = long.Parse(regex.Groups["activity"].Value);
+            string name = regex.Groups["name"].Value;
+            string type = regex.Groups["type"].Value;
+            long count = long.Parse(regex.Groups["count"].Value);
+
+            if (!lastActivityData.ContainsKey(name))
             {
-                Console.WriteLine($"{legionName} -> {kvp.Value[type]}");        
+                lastActivityData.Add(name, activity);
+                soldierData.Add(name, new Dictionary<string, long>());
             }
+
+            if (lastActivityData[name] < activity)
+            {
+                lastActivityData[name] = activity;
+            }
+
+            if (!soldierData[name].ContainsKey(type))
+            {
+                soldierData[name].Add(type, 0);
+            }
+
+            soldierData[name][type] += count;
+
+            n--;
         }
     }
 
-    static void PrinterSoldierType(string[] command, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData, Dictionary<string, int> legionActivityData)
+    private static void PrintSoldierType(Dictionary<string, long> lastActivityData, Dictionary<string, Dictionary<string, long>> soldierData, string type)
     {
-        string type = command[0];
-
-        foreach (var kvp in legionActivityData.OrderByDescending(x => x.Value))
+        foreach (var kvp in lastActivityData.OrderByDescending(x => x.Value))
         {
-            if (soldiersNameTypeCountData[kvp.Key].ContainsKey(type))
+            if (soldierData[kvp.Key].ContainsKey(type))
             {
                 Console.WriteLine($"{kvp.Value} : {kvp.Key}");
             }
         }
     }
 
-    static void InsertSoldier(Dictionary<string, int> legionActivityData, Dictionary<string, Dictionary<string, long>> soldiersNameTypeCountData)
+    private static void PrintActivitySoldierType(Dictionary<string, long> lastActivityData, Dictionary<string, Dictionary<string, long>> soldierData, string[] tokens)
     {
-        int n = int.Parse(Console.ReadLine());
+        int activity = int.Parse(tokens[0]);
+        string type = tokens[1];
 
-        for (int i = 0; i < n; i++)
+        foreach (var kvp in soldierData.Where(x => x.Value.ContainsKey(type)).OrderByDescending(x => x.Value[type]))
         {
-            string[] input = Console.ReadLine()
-                .Split(new string[] { " = ", " -> ", ":" },
-                StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
-
-            int lastActivity = int.Parse(input[0]);
-            string legionName = input[1];
-            string soldierType = input[2];
-            int soldierCount = int.Parse(input[3]);
-
-            if (!legionActivityData.ContainsKey(legionName))
+            if (lastActivityData[kvp.Key] < activity)
             {
-                legionActivityData.Add(legionName, lastActivity);
-                soldiersNameTypeCountData.Add(legionName,
-                    new Dictionary<string, long>());
+                Console.WriteLine($"{kvp.Key} -> {kvp.Value[type]}");
             }
-
-            if (!soldiersNameTypeCountData[legionName].ContainsKey(soldierType))
-            {
-                soldiersNameTypeCountData[legionName].Add(soldierType, 0);
-            }
-
-            if (legionActivityData[legionName] < lastActivity)
-            {
-                legionActivityData[legionName] = lastActivity;
-            }
-
-            soldiersNameTypeCountData[legionName][soldierType] += soldierCount;
         }
     }
 }

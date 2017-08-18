@@ -6,7 +6,7 @@ class HornetAssault
 {
     static void Main()
     {
-        List<long> hives = Console.ReadLine()
+        List<long> bees = Console.ReadLine()
             .Split(' ')
             .Select(long.Parse)
             .ToList();
@@ -15,28 +15,24 @@ class HornetAssault
             .Select(long.Parse)
             .ToList();
 
-        for (int i = 0; i < hives.Count; i++)
+        for (int i = 0; i < bees.Count; i++)
         {
-            if (hornets.Count <= 0)
+            long power = hornets.Sum();
+            if (power <= bees[i] && hornets.Count > 0)
             {
-                break;
-            }
-
-            if (hornets.Sum() > hives[i])
-            {
-                hives.RemoveAt(i);
-                i--;
-            }
-            else
-            {
-                hives[i] -= hornets.Sum();
                 hornets.RemoveAt(0);
+                bees[i] -= power;
+            }
+            else if (power > bees[i])
+            {
+                bees.RemoveAt(i);
+                i--;
             }
         }
 
-        if (hives.Where(x => x > 0).ToList().Count > 0)
+        if (bees.Sum() > 0)
         {
-            Console.WriteLine(String.Join(" ", hives.Where(x => x > 0)));
+            Console.WriteLine(String.Join(" ", bees.Where(x => x > 0)));
         }
         else
         {
