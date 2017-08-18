@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text;
@@ -7,60 +8,56 @@ class SpyGram
 {
     static void Main()
     {
-        SortedDictionary<string, List<string>> messages =
-            new SortedDictionary<string, List<string>>();
+        SortedDictionary<string, List<string>> data = new SortedDictionary<string, List<string>>();
+        
+        int[] key = Console.ReadLine()
+            .Select(x => x - '0')
+            .ToArray();
 
-        string key = Console.ReadLine();
+        InsertMessage(data, key);
 
-        InsertMessage(messages);
-
-        PrintEncryptMessages(messages, key);
+        PrintResult(data);
     }
 
-    private static void InsertMessage(SortedDictionary<string, List<string>> messages)
+    private static void PrintResult(SortedDictionary<string, List<string>> data)
     {
-        while (true)
+        foreach (var kvp in data)
         {
-            string readLine = Console.ReadLine();
-            if (readLine.Equals("END"))
+            foreach (var m in kvp.Value)
             {
-                break;
+                Console.WriteLine(m);
             }
+        }
+    }
 
-            Match regex = Regex.Match(readLine,
-                @"^TO: (?<recipient>[A-Z]+); MESSAGE: (?<message>.+);$");
-
+    private static void InsertMessage(SortedDictionary<string, List<string>> data, int[] key)
+    {
+        string readLine;
+        while ((readLine = Console.ReadLine()) != "END")
+        {
+            Match regex = Regex.Match(readLine, @"TO: ([A-Z]+); MESSAGE: (.+);");
             if (!regex.Success)
             {
                 continue;
             }
 
-            string recipient = regex.Groups["recipient"].Value;
+            string recipient = regex.Groups[1].Value;
+            string message = regex.Groups[2].Value;
 
-            if (!messages.ContainsKey(recipient))
+            if (!data.ContainsKey(recipient))
             {
-                messages.Add(recipient, new List<string>());
+                data.Add(recipient, new List<string>());
             }
 
-            messages[recipient].Add(readLine);
-        }
-    }
+            StringBuilder newMessage = new StringBuilder();
 
-    private static void PrintEncryptMessages(SortedDictionary<string, List<string>> messages, string key)
-    {
-        foreach (var kvp in messages)
-        {
-            foreach (var m in kvp.Value)
+            for (int i = 0; i < readLine.Length; i++)
             {
-                StringBuilder encrypt = new StringBuilder();
-                for (int i = 0; i < m.Length; i++)
-                {
-                    int index = i % key.Length;
-                    char @char = (char)(m[i] + int.Parse(key[index].ToString()));
-                    encrypt.Append(@char.ToString());
-                }
-                Console.WriteLine($"{encrypt}");
+                int index = i % key.Length;
+                newMessage.Append((char)(readLine[i] + key[index]));
             }
+
+            data[recipient].Add(newMessage.ToString());
         }
     }
 }
