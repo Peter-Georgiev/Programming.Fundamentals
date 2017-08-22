@@ -6,8 +6,8 @@ class Entertrain
 {
     static void Main()
     {
-        List<long> arr = new List<long>();
-        long locomotivesPower = long.Parse(Console.ReadLine());
+        List<int> arr = new List<int>();
+        int locomotivesPower = int.Parse(Console.ReadLine());
 
         while (true)
         {
@@ -17,32 +17,28 @@ class Entertrain
                 break;
             }
 
-            arr.Add(long.Parse(readLine));
+            arr.Add(int.Parse(readLine));
 
-            for (long i = 0; i < arr.Count; i++)
+            int sum = arr.Sum();
+            while (sum > locomotivesPower)
             {
-                long sum = arr.Sum();
-                if (sum > 0 && sum > locomotivesPower)
+                int average = (int)Math.Truncate((decimal)sum / arr.Count);
+
+                int closest = arr[0];
+                for (int i = 0; i < arr.Count; ++i)
                 {
-                    long average = (long)Math.Truncate((decimal)sum / arr.Count);
-                    //long average = sum / arr.Count;
-                    long closest = arr
-                        .Aggregate((x, y) => Math.Abs(x - average) < Math.Abs(y - average) ? x : y);
-                    arr.Remove(closest);
-                    i--;
+                    if (Math.Abs(arr[i] - average) < Math.Abs(closest - average))
+                    {
+                        closest = arr[i];
+                    }
                 }
+
+                arr.Remove(closest);
+                
+                sum = arr.Sum();
             }
-        }            
-
+        }
         arr.Reverse();
-        if (arr.Count > 0)
-        {
-            Console.WriteLine(String.Join(" ", arr) + " " + locomotivesPower);
-        }
-        else
-        {
-            Console.WriteLine(locomotivesPower);
-        }
-
+        Console.WriteLine(String.Join(" ", arr) + " " + locomotivesPower);
     }
 }
